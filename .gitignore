@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/*
+.idea/
+
+# Node
+/node_modules
+/tmp
+/out-tsc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.pnp
+.pnp.js
+
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+
+# TypeScript build output (generated in CI before jekyll build)
+assets/js/main.js
