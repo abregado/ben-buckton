@@ -1,0 +1,46 @@
+@use "variables" as *;
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  height: $chip-height;
+  padding: 0 $spacing-sm 0 $spacing-md;
+  background: $color-surface;
+  border-radius: $border-radius-sm;
+  border-left: 3px solid var(--type-color, $color-border);
+  position: relative;
+  color: $color-text;
+  text-decoration: none;
+  transition: background 0.15s;
+  overflow: hidden;
+
+  &[href]:hover {
+    background: $color-surface-2;
+    text-decoration: none;
+  }
+
+  &__title {
+    flex: 1;
+    font-size: $font-size-base;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .post-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    opacity: 0.4;
+    margin-left: auto;
+    padding-right: $spacing-xs;
+  }
+
+  &.is-highlighted {
+    background: $color-surface-2;
+    outline: 1px solid var(--type-color, $color-border);
+  }
+}

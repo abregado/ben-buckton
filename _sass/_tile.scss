@@ -1,0 +1,77 @@
+@use "variables" as *;
+
+.tile {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background: $color-surface;
+  border-radius: $border-radius-md;
+  border-top: 3px solid var(--type-color, $color-border);
+  position: relative;
+  color: $color-text;
+  text-decoration: none;
+  transition: background 0.15s;
+  overflow: hidden;
+
+  &[href]:hover {
+    background: $color-surface-2;
+    text-decoration: none;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__type-label {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: var(--type-color, $color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: $color-text;
+  }
+
+  &__excerpt {
+    font-size: $font-size-base;
+    color: $color-text-muted;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: $border-radius-sm;
+    align-self: flex-start;
+  }
+
+  .post-icon {
+    position: absolute;
+    bottom: $spacing-sm;
+    right: $spacing-sm;
+    width: 32px;
+    height: 32px;
+    opacity: 0.15;
+  }
+
+  &.is-highlighted {
+    background: $color-surface-2;
+    outline: 1px solid var(--type-color, $color-border);
+  }
+}

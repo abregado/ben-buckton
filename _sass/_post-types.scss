@@ -1,0 +1,21 @@
+@use "variables" as *;
+@use "sass:map";
+
+// Generate per-type CSS custom property + icon mask for each post type
+@each $type, $color in $post-type-colors {
+  .post-type--#{$type} {
+    --type-color: #{$color};
+
+    .post-icon {
+      background-color: #{$color};
+      -webkit-mask-image: url("/assets/icons/#{$type}.svg");
+      mask-image: url("/assets/icons/#{$type}.svg");
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-position: center;
+      mask-position: center;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@use "variables" as *;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-sans;
+  font-size: $font-size-base;
+  line-height: 1.6;
+  color: $color-text;
+  background: $color-bg;
+  min-height: 100vh;
+}
+
+a {
+  color: $color-accent;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.main-content {
+  padding-top: $nav-height;
+}
+
+// ── Scrollbar ──────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: $color-bg;
+}
+::-webkit-scrollbar-thumb {
+  background: $color-border;
+  border-radius: 4px;
+}

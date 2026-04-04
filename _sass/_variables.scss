@@ -1,0 +1,48 @@
+// ── Palette ────────────────────────────────────────────────────────────────
+$color-bg:         #0d1117;
+$color-surface:    #161b22;
+$color-surface-2:  #21262d;
+$color-border:     #30363d;
+$color-text:       #e6edf3;
+$color-text-muted: #8b949e;
+$color-accent:     #58a6ff;
+
+// ── Post type accent colours ───────────────────────────────────────────────
+$post-type-colors: (
+  "microblog":      #58a6ff,
+  "gamejam":        #bc8cff,
+  "game-update":    #79c0ff,
+  "laser-update":   #ffa657,
+  "physical-game":  #56d364,
+  "github-project": #f0f6fc,
+  "meetup":         #3fb950,
+  "life-event":     #e3b341,
+  "recipe":         #ff7b72,
+  "job":            #d2a679
+);
+
+// ── Spacing ────────────────────────────────────────────────────────────────
+$spacing-xs:  4px;
+$spacing-sm:  8px;
+$spacing-md:  16px;
+$spacing-lg:  24px;
+$spacing-xl:  40px;
+
+// ── Typography ─────────────────────────────────────────────────────────────
+$font-sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+$font-mono:  "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+$font-size-sm:  0.8125rem;   // 13px
+$font-size-base: 0.9375rem;  // 15px
+$font-size-lg:  1.125rem;    // 18px
+$font-size-xl:  1.375rem;    // 22px
+$font-size-2xl: 1.75rem;     // 28px
+
+// ── Layout ─────────────────────────────────────────────────────────────────
+$timeline-max-width: 820px;
+$nav-height: 56px;
+$month-label-width: 36px;
+$project-bars-width: 48px;
+$chip-height: 44px;
+$border-radius-sm: 4px;
+$border-radius-md: 8px;

@@ -1,0 +1,15 @@
+{
+  "name": "ben-buckton",
+  "version": "1.0.0",
+  "description": "Personal portfolio and blog",
+  "scripts": {
+    "build": "esbuild src/ts/main.ts --bundle --outfile=assets/js/main.js --target=es2020 --format=iife",
+    "dev": "esbuild src/ts/main.ts --bundle --outfile=assets/js/main.js --target=es2020 --format=iife --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.3"
+  },
+  "private": true
+}

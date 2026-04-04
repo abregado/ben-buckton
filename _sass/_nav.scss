@@ -1,0 +1,84 @@
+@use "variables" as *;
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $nav-height;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: 0 $spacing-lg;
+  background: rgba($color-bg, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid $color-border;
+
+  &__brand {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $color-text;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+    margin-right: $spacing-sm;
+
+    &:hover {
+      color: $color-accent;
+      text-decoration: none;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: $spacing-xs;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  &__filter-btn {
+    padding: 4px 12px;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-text-muted;
+    background: transparent;
+    border: 1px solid $color-border;
+    border-radius: 20px;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+
+    &:hover {
+      color: $color-text;
+      border-color: $color-text-muted;
+      background: $color-surface-2;
+    }
+
+    &[aria-pressed="true"],
+    &.is-active {
+      color: $color-bg;
+      background: $color-accent;
+      border-color: $color-accent;
+    }
+  }
+
+  &__divider-toggle {
+    flex-shrink: 0;
+    padding: 4px 12px;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    background: transparent;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-sm;
+    transition: color 0.15s, background 0.15s;
+
+    &:hover {
+      color: $color-text;
+      background: $color-surface-2;
+    }
+
+    &[aria-pressed="true"] {
+      color: $color-text;
+      background: $color-surface-2;
+    }
+  }
+}

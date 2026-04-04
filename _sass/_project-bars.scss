@@ -1,0 +1,54 @@
+@use "variables" as *;
+
+.project-bars {
+  position: relative;
+  width: $project-bars-width;
+  flex-shrink: 0;
+}
+
+.project-bar {
+  position: absolute;
+  right: 16px;
+  width: 4px;
+  background: var(--project-color, $color-border);
+  border-radius: 2px;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+
+  &:hover,
+  &.is-hovered {
+    opacity: 1;
+  }
+
+  &__arrow {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: var(--project-color, $color-border);
+    color: $color-bg;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, transform 0.1s;
+
+    &:hover {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.15);
+    }
+
+    &--up {
+      top: 0;
+    }
+
+    &--down {
+      bottom: 0;
+    }
+  }
+}

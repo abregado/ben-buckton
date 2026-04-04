@@ -1,0 +1,21 @@
+# Each project groups related posts on the timeline.
+# slug must match the `project:` front matter value in posts.
+# end: omit or leave null for ongoing projects (treated as today).
+
+- slug: deeper
+  name: "Deeper"
+  color: "#79c0ff"
+  start: "2021-04-10"
+  # end: null  — ongoing
+
+- slug: laser-workshop
+  name: "Laser Workshop"
+  color: "#ffa657"
+  start: "2021-11-05"
+  # end: null  — ongoing
+
+- slug: echolib
+  name: "EchoLib"
+  color: "#bc8cff"
+  start: "2025-08-22"
+  repo: "ben-buckton/echolib"

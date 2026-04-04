@@ -1,0 +1,28 @@
+title: Ben Buckton
+description: Game dev, maker, and occasional cook.
+baseurl: ""
+url: "https://ben-buckton.github.io"
+
+permalink: /posts/:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+sass:
+  style: compressed
+  sass_dir: _sass
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - node_modules/
+  - src/
+  - tsconfig.json
+  - plan.md
+  - "*.sh"

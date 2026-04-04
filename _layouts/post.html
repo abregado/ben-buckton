@@ -1,0 +1,43 @@
+---
+layout: default
+---
+
+<article class="post-full post-type--{{ page.type }}">
+  <header class="post-full__header">
+    <div class="post-full__meta">
+      <span class="post-full__type-label">{{ page.type | replace: '-', ' ' | capitalize }}</span>
+      <time class="post-full__date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+    </div>
+
+    <h1 class="post-full__title">{{ page.title }}</h1>
+
+    {% if page.tags.size > 0 %}
+    <div class="post-full__tags">
+      {% for tag in page.tags %}
+      <span class="post-full__tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="post-icon post-icon--full" aria-hidden="true"></div>
+  </header>
+
+  {% if page.image %}
+  <div class="post-full__hero">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+  </div>
+  {% endif %}
+
+  <div class="post-full__body">
+    {{ content }}
+  </div>
+
+  <footer class="post-full__footer">
+    <a href="{{ '/' | relative_url }}" class="post-full__back">← Back to timeline</a>
+    {% if page.project %}
+    <span class="post-full__project">Project: {{ page.project }}</span>
+    {% endif %}
+  </footer>
+</article>
