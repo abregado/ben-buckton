@@ -1,0 +1,330 @@
+/* ============================================================
+   INKWELL THEME
+   Dark warm browns — primary "me page" style
+   ============================================================ */
+
+/* ── VARIABLES ── */
+:root[data-theme="inkwell"],
+[data-theme="inkwell"] {
+  /* backgrounds */
+  --bg-page:        #1c1a18;
+  --bg-surface:     #232120;
+  --bg-elevated:    #242220;
+  --bg-raised:      #2c2a27;
+  --bg-header:      #141210;
+
+  /* text */
+  --text-primary:   #e5ddd3;
+  --text-secondary: #8a7a68;
+
+  /* accent / chrome */
+  --accent:         #b8956a;
+  --accent-dim:     #7a5f3a;
+  --green:          #4a8c6a;
+  --green-dim:      #2d5c43;
+
+  /* borders */
+  --border:         #363230;
+  --border-hover:   #4a3e32;
+
+  /* card */
+  --card-bg:        #242220;
+  --card-radius:    10px;
+
+  /* corner SVG */
+  --corner-size:    36px;
+}
+
+/* ── TAG TYPE COLORS (vivid — for dark backgrounds) ── */
+:root {
+  --c-microblog:      #58a6ff;
+  --c-gamejam:        #bc8cff;
+  --c-game-update:    #79c0ff;
+  --c-laser-update:   #ffa657;
+  --c-physical-game:  #56d364;
+  --c-github:         #adbac7;
+  --c-meetup:         #3fb950;
+  --c-life-event:     #e3b341;
+  --c-recipe:         #ff7b72;
+  --c-job:            #d2a679;
+}
+
+/* ── PAGE ── */
+[data-theme="inkwell"] body,
+[data-theme="inkwell"] .page-wrap {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ── HEADER ── */
+[data-theme="inkwell"] .site-header {
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[data-theme="inkwell"] .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--green-dim);
+  color: #c8e8d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+[data-theme="inkwell"] .site-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+[data-theme="inkwell"] .site-tagline {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+[data-theme="inkwell"] .nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+
+[data-theme="inkwell"] .nav-link:hover,
+[data-theme="inkwell"] .nav-link.active {
+  color: var(--accent);
+}
+
+/* ── MAIN CONTENT COLUMN ── */
+[data-theme="inkwell"] .page-body {
+  display: flex;
+  justify-content: center;
+  padding: 28px 20px 40px;
+}
+
+[data-theme="inkwell"] .content-col {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ── SECTION TITLE ── */
+[data-theme="inkwell"] .section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── TAG FILTER ROW ── */
+[data-theme="inkwell"] .tag-filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="inkwell"] .tag-filter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.14s, color 0.14s;
+}
+
+[data-theme="inkwell"] .tag-filter:hover {
+  border-color: var(--green);
+  color: var(--text-primary);
+}
+
+[data-theme="inkwell"] .tag-filter.active {
+  background: rgba(74, 140, 106, 0.18);
+  border-color: var(--green);
+  color: #a8d8c0;
+}
+
+[data-theme="inkwell"] .filter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── POSTS GRID ── */
+[data-theme="inkwell"] .posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── CARD WRAP ──
+   The wrap is the hover target so the corner SVG lifts with the card.
+   padding-left makes room for the corner SVG (which sits outside the card).
+   --tag-color must be set inline per card wrap, e.g.:
+     style="--tag-color: var(--c-gamejam)"
+*/
+[data-theme="inkwell"] .post-card-wrap {
+  position: relative;
+  padding-left: var(--corner-size, 36px);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+[data-theme="inkwell"] .post-card-wrap:hover {
+  transform: translateY(-3px);
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
+}
+
+/* ── CORNER SVG TAG ──
+   The edge-tag.svg is placed here. Its right edge is flush with
+   the card's left edge. Its top is flush with the card's top.
+   Fill is set inline to var(--tag-color) or per-type color.
+*/
+[data-theme="inkwell"] .card-corner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--corner-size, 36px);
+  height: var(--corner-size, 36px);
+  display: block;
+  z-index: 2;
+}
+
+[data-theme="inkwell"] .card-corner path {
+  fill: var(--tag-color, var(--accent));
+}
+
+/* ── TOP BORDER (sweep animation) ──
+   A plain div, NOT a ::before pseudo, so it is not clipped by
+   overflow:hidden on the card. It sits in .post-card-wrap above the card.
+   Grows left→right on wrap hover via scaleX transition.
+*/
+[data-theme="inkwell"] .card-top-border {
+  position: absolute;
+  top: 0;
+  left: var(--corner-size, 36px);
+  right: 0;
+  height: 2px;
+  z-index: 3;
+  background: var(--tag-color, var(--accent));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 var(--card-radius, 10px) 0 0;
+  pointer-events: none;
+}
+
+[data-theme="inkwell"] .post-card-wrap:hover .card-top-border {
+  transform: scaleX(1);
+}
+
+/* ── POST CARD ── */
+[data-theme="inkwell"] .post-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  /* top-left corner is square to meet the SVG; rest are rounded */
+  border-radius: 0 var(--card-radius, 10px) var(--card-radius, 10px) var(--card-radius, 10px);
+  border-left:   2px solid var(--tag-color, var(--accent));
+  border-top:    1px solid var(--border);
+  border-right:  1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+/* corner tint — radial gradient from top-left, tag color, fades in on hover */
+[data-theme="inkwell"] .post-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse at 0% 0%,
+    var(--tag-color, var(--accent)) 0%,
+    transparent 65%
+  );
+  transition: opacity 0.3s ease;
+}
+
+[data-theme="inkwell"] .post-card-wrap:hover .post-card::after {
+  opacity: 0.12;
+}
+
+/* all direct children above the tint layer */
+[data-theme="inkwell"] .post-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── TILE (full card — top/featured post) ── */
+[data-theme="inkwell"] .post-card.tile {
+  padding: 14px 16px 14px 14px;
+}
+
+[data-theme="inkwell"] .tile .post-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+[data-theme="inkwell"] .tile .post-excerpt {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+[data-theme="inkwell"] .tile .post-secondary-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 9px;
+}
+
+[data-theme="inkwell"] .tile .post-sec-tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* ── CHIP (compact — title only) ── */
+[data-theme="inkwell"] .post-card.chip {
+  padding: 9px 14px;
+}
+
+[data-theme="inkwell"] .chip .post-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+}

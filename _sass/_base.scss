@@ -44,6 +44,16 @@ button {
   padding-top: $nav-height;
 }
 
+// ── Card wrap defaults (no theme) ─────────────────────────────────────────
+// When no data-theme is active the corner SVG and sweep border are hidden;
+// the wrap adds no left padding so the existing chip/tile layout is unchanged.
+.post-card-wrap {
+  padding-left: 0;
+}
+.card-corner {
+  display: none;
+}
+
 // ── Scrollbar ──────────────────────────────────────────────────────────────
 ::-webkit-scrollbar {
   width: 8px;

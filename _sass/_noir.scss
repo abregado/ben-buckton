@@ -1,0 +1,324 @@
+/* ============================================================
+   NOIR THEME
+   Pure monochrome dark — no tag colors on cards or chrome.
+   Tag filter pills use strikethrough (inactive) / filled+inverted (active).
+   ============================================================ */
+
+/* ── VARIABLES ── */
+:root[data-theme="noir"],
+[data-theme="noir"] {
+  /* backgrounds */
+  --bg-page:        #0a0a0a;
+  --bg-surface:     #111111;
+  --bg-elevated:    #111111;
+  --bg-raised:      #1a1a1a;
+  --bg-header:      #050505;
+
+  /* text */
+  --text-primary:   #f0f0f0;
+  --text-secondary: #666666;
+  --text-dim:       #444444;
+
+  /* borders */
+  --border:         #252525;
+  --border-dim:     #1a1a1a;
+  --border-hover:   #2a2a2a;
+
+  /* card — all gray, no tag color */
+  --card-bg:        #111111;
+  --card-left:      #383838;   /* left border, always gray */
+  --card-top-sweep: #555555;   /* top border sweep, always gray */
+  --corner-fill:    #2e2e2e;   /* SVG corner tag fill, always gray */
+  --card-radius:    3px;       /* tighter radius for Noir's sharper feel */
+
+  /* corner SVG */
+  --corner-size:    36px;
+}
+
+/* ── TAG TYPE COLORS ──
+   NOTE: In Noir, tag colors are used ONLY in the filter row dots.
+   They are NOT applied to card borders, SVG corner tags, or top borders.
+   Cards are always monochrome. See tag filter section below.
+*/
+:root {
+  --c-microblog:      #58a6ff;
+  --c-gamejam:        #bc8cff;
+  --c-game-update:    #79c0ff;
+  --c-laser-update:   #ffa657;
+  --c-physical-game:  #56d364;
+  --c-github:         #adbac7;
+  --c-meetup:         #3fb950;
+  --c-life-event:     #e3b341;
+  --c-recipe:         #ff7b72;
+  --c-job:            #d2a679;
+}
+
+/* ── PAGE ── */
+[data-theme="noir"] body,
+[data-theme="noir"] .page-wrap {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ── HEADER ── */
+[data-theme="noir"] .site-header {
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[data-theme="noir"] .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+[data-theme="noir"] .site-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+[data-theme="noir"] .site-tagline {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+[data-theme="noir"] .nav-link {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.12s ease;
+}
+
+[data-theme="noir"] .nav-link:hover,
+[data-theme="noir"] .nav-link.active {
+  color: #ffffff;
+}
+
+/* ── MAIN CONTENT COLUMN ── */
+[data-theme="noir"] .page-body {
+  display: flex;
+  justify-content: center;
+  padding: 28px 20px 40px;
+}
+
+[data-theme="noir"] .content-col {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ── SECTION TITLE ── */
+[data-theme="noir"] .section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+/* ── TAG FILTER ROW ──
+   IMPORTANT: Noir filter pills have a unique interaction pattern.
+   - Inactive: strikethrough text, muted color → signals "not filtered"
+   - Hover: strikethrough removed, text lightens
+   - Active: solid filled pill (light bg, dark text, no strikethrough)
+   Filter dots are hidden in Noir; the label alone identifies the tag.
+*/
+[data-theme="noir"] .tag-filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+[data-theme="noir"] .tag-filter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1.5px solid #222222;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: line-through;
+  transition: border-color 0.14s, color 0.14s, background 0.14s, text-decoration 0.14s;
+}
+
+[data-theme="noir"] .tag-filter .filter-dot {
+  display: none; /* no colored dots in Noir */
+}
+
+[data-theme="noir"] .tag-filter:hover {
+  border-color: #555555;
+  color: #aaaaaa;
+  text-decoration: none;
+}
+
+[data-theme="noir"] .tag-filter.active {
+  background: #e8e8e8;
+  border-color: #e8e8e8;
+  color: #000000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ── POSTS GRID ── */
+[data-theme="noir"] .posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── CARD WRAP ──
+   --tag-color can still be set on the wrap for JS filtering logic,
+   but Noir overrides all color uses with gray values below.
+   The wrap handles the hover lift and drop shadow.
+*/
+[data-theme="noir"] .post-card-wrap {
+  position: relative;
+  padding-left: var(--corner-size, 36px);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+[data-theme="noir"] .post-card-wrap:hover {
+  transform: translateY(-3px);
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.7));
+}
+
+/* ── CORNER SVG TAG ──
+   Always rendered in --corner-fill (#2e2e2e), regardless of tag type.
+   Do not apply --tag-color to the path fill in Noir.
+*/
+[data-theme="noir"] .card-corner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--corner-size, 36px);
+  height: var(--corner-size, 36px);
+  display: block;
+  z-index: 2;
+}
+
+[data-theme="noir"] .card-corner path {
+  fill: var(--corner-fill); /* always #2e2e2e — no tag color */
+}
+
+/* ── TOP BORDER SWEEP ──
+   Always gray (#555555). Grows left→right on wrap hover.
+*/
+[data-theme="noir"] .card-top-border {
+  position: absolute;
+  top: 0;
+  left: var(--corner-size, 36px);
+  right: 0;
+  height: 2px;
+  z-index: 3;
+  background: var(--card-top-sweep); /* #555555 — always gray */
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 var(--card-radius, 3px) 0 0;
+  pointer-events: none;
+}
+
+[data-theme="noir"] .post-card-wrap:hover .card-top-border {
+  transform: scaleX(1);
+}
+
+/* ── POST CARD ── */
+[data-theme="noir"] .post-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  border-radius: 0 var(--card-radius, 3px) var(--card-radius, 3px) var(--card-radius, 3px);
+  border-left:   2px solid var(--card-left);   /* always gray, no tag color */
+  border-top:    1px solid var(--border);
+  border-right:  1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* no corner tint in Noir — ::after is inactive */
+[data-theme="noir"] .post-card::after {
+  display: none;
+}
+
+[data-theme="noir"] .post-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── TILE (full card — top/featured post) ── */
+[data-theme="noir"] .post-card.tile {
+  padding: 14px 16px 14px 14px;
+}
+
+[data-theme="noir"] .tile .post-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+[data-theme="noir"] .tile .post-excerpt {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+[data-theme="noir"] .tile .post-secondary-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 9px;
+}
+
+[data-theme="noir"] .tile .post-sec-tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* ── CHIP (compact — title only) ── */
+[data-theme="noir"] .post-card.chip {
+  padding: 9px 14px;
+}
+
+[data-theme="noir"] .chip .post-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+}

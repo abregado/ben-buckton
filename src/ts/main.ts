@@ -89,6 +89,26 @@ function init(): void {
     });
   }
 
+  // ── Style selector ───────────────────────────────────────────────────────
+  document.querySelectorAll<HTMLElement>('.top-nav__style-btn').forEach(btn => {
+    const theme = btn.dataset['themeSelect']!;
+    if (theme === document.documentElement.dataset['theme']) {
+      btn.classList.add('is-active');
+    }
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.dataset['theme'];
+      document.querySelectorAll('.top-nav__style-btn').forEach(b => b.classList.remove('is-active'));
+      if (current === theme) {
+        delete document.documentElement.dataset['theme'];
+        localStorage.removeItem('site-theme');
+      } else {
+        document.documentElement.dataset['theme'] = theme;
+        localStorage.setItem('site-theme', theme);
+        btn.classList.add('is-active');
+      }
+    });
+  });
+
   // ── Project bars ──────────────────────────────────────────────────────────
   const projectBarsEl = document.getElementById('project-bars');
   if (projectBarsEl && timelineEl && data.projects?.length > 0) {
@@ -101,6 +121,10 @@ function init(): void {
     });
   }
 }
+
+// Restore theme immediately to avoid flash of unstyled content
+const _savedTheme = localStorage.getItem('site-theme');
+if (_savedTheme) document.documentElement.dataset['theme'] = _savedTheme;
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);

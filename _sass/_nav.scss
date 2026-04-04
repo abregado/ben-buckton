@@ -81,4 +81,38 @@
       background: $color-surface-2;
     }
   }
+
+  &__style-selector {
+    display: flex;
+    flex-shrink: 0;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-sm;
+    overflow: hidden;
+  }
+
+  &__style-btn {
+    padding: 4px 10px;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-text-muted;
+    background: transparent;
+    border: none;
+    border-left: 1px solid $color-border;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+
+    &:first-child {
+      border-left: none;
+    }
+
+    &:hover {
+      color: $color-text;
+      background: $color-surface-2;
+    }
+
+    &.is-active {
+      color: $color-text;
+      background: $color-surface-2;
+    }
+  }
 }
