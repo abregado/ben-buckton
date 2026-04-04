@@ -5,7 +5,8 @@ layout: default
 <script>
 window.__SITE_DATA__ = {
   posts: [
-    {% for post in site.posts %}
+    {% assign timeline_posts = site.posts | where_exp: "post", "post.timeline != false" %}
+    {% for post in timeline_posts %}
     {
       "title": {{ post.title | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",

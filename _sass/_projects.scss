@@ -1,0 +1,134 @@
+@use "variables" as *;
+
+.projects-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.project-card-full {
+  display: flex;
+  align-items: stretch;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  margin-bottom: $spacing-md;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s, border-color 0.15s, transform 0.2s;
+  overflow: hidden;
+
+  &:hover {
+    background: $color-surface-2;
+    border-color: var(--project-color, $color-border);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  &__accent {
+    width: 4px;
+    flex-shrink: 0;
+    background: var(--project-color, $color-border);
+  }
+
+  &__body {
+    flex: 1;
+    padding: $spacing-md $spacing-lg;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__name {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__pip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 20px;
+    background: var(--project-color, $color-border);
+    color: $color-bg;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    line-height: 1.55;
+  }
+}
+
+// Theme overrides
+[data-theme="inkwell"] .projects-page__title {
+  color: var(--text-primary);
+}
+
+[data-theme="inkwell"] .project-card-full {
+  background: var(--card-bg);
+  border-color: var(--border);
+
+  &:hover {
+    background: var(--bg-raised);
+  }
+
+  &__name {
+    color: var(--text-primary);
+  }
+
+  &__desc {
+    color: var(--text-secondary);
+  }
+}
+
+[data-theme="noir"] .projects-page__title {
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+[data-theme="noir"] .project-card-full {
+  background: var(--card-bg);
+  border-color: var(--border);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--bg-raised);
+    border-color: #555;
+  }
+
+  &__accent {
+    background: #383838; // no project color in Noir
+  }
+
+  &__pip {
+    background: #383838;
+    color: var(--text-primary);
+  }
+
+  &__name {
+    color: var(--text-primary);
+  }
+
+  &__desc {
+    color: var(--text-secondary);
+  }
+}

@@ -15,14 +15,28 @@
   backdrop-filter: blur(12px);
   border-bottom: 1px solid $color-border;
 
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+    margin-right: $spacing-sm;
+  }
+
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
   &__brand {
     font-size: $font-size-lg;
     font-weight: 600;
     color: $color-text;
     text-decoration: none;
     letter-spacing: -0.02em;
-    flex-shrink: 0;
-    margin-right: $spacing-sm;
 
     &:hover {
       color: $color-accent;
@@ -30,14 +44,13 @@
     }
   }
 
-  &__filters {
+  &__links {
     display: flex;
-    gap: $spacing-xs;
+    gap: $spacing-sm;
     flex: 1;
-    flex-wrap: wrap;
   }
 
-  &__filter-btn {
+  &__link {
     padding: 4px 12px;
     font-size: $font-size-sm;
     font-weight: 500;
@@ -45,19 +58,14 @@
     background: transparent;
     border: 1px solid $color-border;
     border-radius: 20px;
+    text-decoration: none;
     transition: color 0.15s, background 0.15s, border-color 0.15s;
 
     &:hover {
       color: $color-text;
       border-color: $color-text-muted;
       background: $color-surface-2;
-    }
-
-    &[aria-pressed="true"],
-    &.is-active {
-      color: $color-bg;
-      background: $color-accent;
-      border-color: $color-accent;
+      text-decoration: none;
     }
   }
 

@@ -1,7 +1,8 @@
-import { SiteData, NavPreset } from './types';
+import { SiteData } from './types';
 import { TagFilter } from './tag-filter';
 import { Timeline } from './timeline';
 import { ProjectBars } from './project-bars';
+import { initRelatedPosts } from './post-related';
 
 declare global {
   interface Window { __SITE_DATA__: SiteData; }
@@ -58,36 +59,8 @@ function init(): void {
   // ── Clear filters ─────────────────────────────────────────────────────────
   document.getElementById('tag-filter-clear')?.addEventListener('click', () => {
     filter.clear();
-    clearNavActive();
     syncTagButtons();
   });
-
-  // ── Nav preset buttons ────────────────────────────────────────────────────
-  document.querySelectorAll<HTMLElement>('.top-nav__filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const preset = btn.dataset['preset'] as NavPreset | undefined;
-      if (!preset) return;
-
-      const isActive = btn.getAttribute('aria-pressed') === 'true';
-      clearNavActive();
-
-      if (isActive) {
-        filter.clear();
-      } else {
-        filter.applyNavPreset(preset);
-        btn.setAttribute('aria-pressed', 'true');
-        btn.classList.add('is-active');
-      }
-      syncTagButtons();
-    });
-  });
-
-  function clearNavActive(): void {
-    document.querySelectorAll<HTMLElement>('.top-nav__filter-btn').forEach(b => {
-      b.setAttribute('aria-pressed', 'false');
-      b.classList.remove('is-active');
-    });
-  }
 
   // ── Style selector ───────────────────────────────────────────────────────
   document.querySelectorAll<HTMLElement>('.top-nav__style-btn').forEach(btn => {
@@ -100,7 +73,7 @@ function init(): void {
       document.querySelectorAll('.top-nav__style-btn').forEach(b => b.classList.remove('is-active'));
       if (current === theme) {
         delete document.documentElement.dataset['theme'];
-        localStorage.removeItem('site-theme');
+        localStorage.setItem('site-theme', 'none');
       } else {
         document.documentElement.dataset['theme'] = theme;
         localStorage.setItem('site-theme', theme);
@@ -115,16 +88,22 @@ function init(): void {
     const projectBars = new ProjectBars(projectBarsEl, timelineEl, data.projects, data.posts);
     projectBars.render();
 
-    // Re-position bars after each filter change (timeline re-renders first)
     filter.addListener(() => {
       requestAnimationFrame(() => projectBars.updatePositions());
     });
   }
+
+  // ── Related posts (post pages only) ──────────────────────────────────────
+  if (document.getElementById('related-posts')) {
+    initRelatedPosts(data);
+  }
 }
 
-// Restore theme immediately to avoid flash of unstyled content
-const _savedTheme = localStorage.getItem('site-theme');
-if (_savedTheme) document.documentElement.dataset['theme'] = _savedTheme;
+// Restore theme immediately — default to inkwell on first visit
+const _savedTheme = localStorage.getItem('site-theme') ?? 'inkwell';
+if (_savedTheme !== 'none') {
+  document.documentElement.dataset['theme'] = _savedTheme;
+}
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);

@@ -1,12 +1,11 @@
 <nav class="top-nav" aria-label="Main navigation">
-  <a href="{{ '/' | relative_url }}" class="top-nav__brand">Ben Buckton</a>
+  <div class="top-nav__identity">
+    <img src="{{ '/assets/avatar.png' | relative_url }}" class="top-nav__avatar" alt="Ben Buckton" width="36" height="36">
+    <a href="{{ '/' | relative_url }}" class="top-nav__brand">Ben Buckton</a>
+  </div>
 
-  <div class="top-nav__filters" role="group" aria-label="Category filters">
-    <button class="top-nav__filter-btn" data-preset="beliefs" aria-pressed="false">Beliefs</button>
-    <button class="top-nav__filter-btn" data-preset="games"   aria-pressed="false">Games</button>
-    <button class="top-nav__filter-btn" data-preset="cooking" aria-pressed="false">Cooking</button>
-    <button class="top-nav__filter-btn" data-preset="meetup"  aria-pressed="false">Meetup</button>
-    <button class="top-nav__filter-btn" data-preset="life"    aria-pressed="false">Life</button>
+  <div class="top-nav__links">
+    <a href="{{ '/projects/' | relative_url }}" class="top-nav__link">Projects</a>
   </div>
 
   <button class="top-nav__divider-toggle" id="divider-toggle" aria-pressed="false">

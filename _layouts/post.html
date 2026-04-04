@@ -2,7 +2,36 @@
 layout: default
 ---
 
-<article class="post-full post-type--{{ page.type }}">
+<script>
+{% if page.color %}
+  {% assign post_tag_color = page.color %}
+{% else %}
+  {% assign type_slug = page.type | replace: 'github-project', 'github' %}
+  {% capture post_tag_color %}var(--c-{{ type_slug }}){% endcapture %}
+{% endif %}
+window.__SITE_DATA__ = {
+  posts: [
+    {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "date": "{{ post.date | date: '%Y-%m-%d' }}",
+      "type": {{ post.type | jsonify }},
+      "tags": {{ post.tags | jsonify }},
+      "clickable": {{ post.clickable | default: true }},
+      "url": "{{ post.url | relative_url }}",
+      "project": {{ post.project | jsonify }},
+      "image": {{ post.image | jsonify }},
+      "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  projects: {{ site.data.projects | jsonify }}
+};
+window.__CURRENT_POST_URL__ = "{{ page.url | relative_url }}";
+{% if page.project %}window.__CURRENT_PROJECT__ = "{{ page.project }}";{% endif %}
+</script>
+
+<article class="post-full post-type--{{ page.type }}" style="--tag-color: {{ post_tag_color }}">
   <header class="post-full__header">
     <div class="post-full__meta">
       <span class="post-full__type-label">{{ page.type | replace: '-', ' ' | capitalize }}</span>
@@ -35,9 +64,11 @@ layout: default
   </div>
 
   <footer class="post-full__footer">
-    <a href="{{ '/' | relative_url }}" class="post-full__back">← Back to timeline</a>
+    <a href="{{ '/' | relative_url }}" class="post-full__back">← Return to timeline</a>
     {% if page.project %}
-    <span class="post-full__project">Project: {{ page.project }}</span>
+    <a href="{{ '/projects/' | append: page.project | append: '/' | relative_url }}" class="post-full__project-link">{{ page.project | capitalize }} project →</a>
     {% endif %}
   </footer>
 </article>
+
+<div id="related-posts" class="post-full__related"></div>

@@ -31,6 +31,7 @@ export class ProjectBars {
     this.barsContainer.innerHTML = '';
     this.entries = [];
 
+    let columnIndex = 0;
     for (const project of this.projects) {
       const projectPosts = this.posts.filter(p => p.project === project.slug);
       if (projectPosts.length === 0) continue;
@@ -38,6 +39,7 @@ export class ProjectBars {
       const bar = document.createElement('div');
       bar.className = 'project-bar';
       bar.style.setProperty('--project-color', project.color);
+      bar.style.setProperty('--bar-index', String(columnIndex));
       bar.title = project.name;
 
       const topArrow = this.makeArrow('up', project.name);
@@ -48,11 +50,19 @@ export class ProjectBars {
 
       const entry: BarEntry = { project, posts: projectPosts, element: bar, topArrow, bottomArrow };
       this.entries.push(entry);
+      columnIndex++;
 
       bar.addEventListener('mouseenter', () => this.highlightCards(project.slug, true));
       bar.addEventListener('mouseleave',  () => this.highlightCards(project.slug, false));
-      topArrow.addEventListener('click',    () => this.navigate(entry, 'up'));
-      bottomArrow.addEventListener('click', () => this.navigate(entry, 'down'));
+      topArrow.addEventListener('click',    (e) => { e.stopPropagation(); this.navigate(entry, 'up'); });
+      bottomArrow.addEventListener('click', (e) => { e.stopPropagation(); this.navigate(entry, 'down'); });
+
+      if (project.post) {
+        bar.style.cursor = 'pointer';
+        bar.addEventListener('click', () => {
+          window.location.href = project.post!;
+        });
+      }
     }
 
     this.updatePositions();

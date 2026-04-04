@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<div class="projects-page">
+  <h1 class="projects-page__title">Projects</h1>
+
+  {% for project in site.data.projects %}
+    {% assign project_posts = site.posts | where: "project", project.slug | where_exp: "p", "p.timeline != false" %}
+    {% if project_posts.size > 0 %}
+    <a href="{{ project.post | relative_url }}" class="project-card-full" style="--project-color: {{ project.color }}">
+      <div class="project-card-full__accent"></div>
+      <div class="project-card-full__body">
+        <div class="project-card-full__header">
+          <span class="project-card-full__name">{{ project.name }}</span>
+          <span class="project-card-full__pip">{{ project_posts.size }}</span>
+        </div>
+        {% if project.description %}
+        <p class="project-card-full__desc">{{ project.description }}</p>
+        {% endif %}
+      </div>
+    </a>
+    {% endif %}
+  {% endfor %}
+</div>

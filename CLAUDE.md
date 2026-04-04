@@ -5,39 +5,44 @@ Jekyll 4 + esbuild (TypeScript → `assets/js/main.js`) + Jekyll Sass. Hosted on
 ## Non-obvious conventions
 
 - `assets/js/main.js` is gitignored build output — it's generated in CI before `jekyll build`. Never commit it.
-- Nav buttons (Beliefs, Games, Cooking, Meetup, Life) set tag presets client-side: `beliefs | games | cooking | meetup | life`. They are NOT special pages.
-- Post front matter: `layout`, `title`, `date`, `type`, `tags[]`, `clickable` (bool), `project?` (slug), `image?`
+- Nav has a single **Projects** link (`/projects/`) and an avatar image (`assets/avatar.png`, 512×512 PNG scaled to 36px circle). The old tag-preset buttons (Beliefs, Games, etc.) are gone.
+- Post front matter: `layout`, `title`, `date`, `type`, `tags[]`, `clickable` (bool), `project?` (slug), `image?`, `timeline?` (bool — set `false` to hide from timeline)
+- Project overview pages live in `projects/` (e.g. `projects/deeper.md`) with `permalink`, `timeline: false`, and a `color:` field that sets `--tag-color` directly on the post-full article.
 - Adding a **post type** requires 3 coordinated changes — use `/add-post-type`.
-- Adding a **project bar** requires an entry in `_data/projects.yml` — use `/add-project`.
+- Adding a **project** requires an entry in `_data/projects.yml` AND a page in `projects/` — use `/add-project`.
+
+## Default theme
+
+Inkwell is the default on first visit. The JS reads `localStorage.getItem('site-theme') ?? 'inkwell'`. When the user explicitly dismisses all themes, `'none'` is stored so Inkwell doesn't re-apply on the next visit.
 
 ## Themes
 
-Two dark themes — **Inkwell** (warm brown, full tag colors) and **Noir** (strict monochrome). Activated by `data-theme="inkwell"` or `data-theme="noir"` on `<html>`. The nav style selector sets this and persists to `localStorage`. Default (no `data-theme`) renders the existing GitHub-dark look.
+Two dark themes — **Inkwell** (warm brown, full tag colors) and **Noir** (strict monochrome). Activated by `data-theme="inkwell"` or `data-theme="noir"` on `<html>`. The nav style selector sets this and persists to `localStorage`. When no `data-theme` is set, the GitHub-dark base styles apply.
 
 CSS lives in `_sass/_inkwell.scss` and `_sass/_noir.scss`, compiled into the main bundle.
 
 ### Tag color variables
 
-Defined at `:root` in both theme files. Used as `--tag-color` inline on `.post-card-wrap`:
+Defined at `:root` in both theme files. Used as `--tag-color` inline on `.post-card-wrap` (timeline cards) and as an inline style on `.post-full` articles (set via Liquid from `page.type`, or directly from `page.color` for project pages):
 
 ```
 --c-microblog, --c-gamejam, --c-game-update, --c-laser-update, --c-physical-game,
 --c-github, --c-meetup, --c-life-event, --c-recipe, --c-job
 ```
 
-Note: post type `github-project` maps to `--c-github` (see `tagColorVar()` in `timeline.ts`).
+Note: post type `github-project` maps to `--c-github` (see `tagColorVar()` in `timeline.ts` and `post-related.ts`).
 
-**Inkwell:** tag colors used on card left border, corner SVG fill, top border sweep, hover tint.  
-**Noir:** tag colors used **only** in filter row dots. All card elements are forced to gray.
+**Inkwell:** tag colors used on card left border, corner element fill, top border sweep, hover tint, and post-full dividers/links.  
+**Noir:** tag colors used **only** in filter row dots. All card and post-full elements are forced to gray.
 
 ### Card HTML structure
 
-`timeline.ts` renders every post into this wrapper structure:
+`timeline.ts` and `post-related.ts` both render posts into this wrapper structure:
 
 ```
-.post-card-wrap  (hover target; --tag-color and data-tags set inline)
+.post-card-wrap  (hover target; --tag-color, --edge-img, data-tags set inline)
 ├── .card-top-border   (sibling div — NOT ::before, so it isn't clipped by card overflow:hidden)
-├── .card-corner svg   (edge-tag.svg inlined; absolute, left:0 top:0; 36×36px)
+├── .card-corner       (div masked by --edge-img; absolute, left:0 top:0; 36×36px)
 └── .post-card.chip / .post-card.tile  (inner card; also carries .post-type--{type})
     └── .post-title / .post-excerpt / .post-secondary-tags
 ```
@@ -55,11 +60,61 @@ When no theme is active, `.card-corner { display:none }` and `.post-card-wrap { 
 | `.post-card::after` | radial gradient tint fades in (opacity 0→0.12) | hidden (`display:none`) |
 | Left border | tag color (static) | gray `#383838` (static) |
 
-The top border sweep uses `transform: scaleX(0→1)` with `transform-origin: left center` and `transition: 0.32s cubic-bezier(0.4,0,0.2,1)`. It starts at `left: var(--corner-size)` so it begins flush with the card's left edge (after the SVG).
+The top border sweep uses `transform: scaleX(0→1)` with `transform-origin: left center` and `transition: 0.32s cubic-bezier(0.4,0,0.2,1)`. It starts at `left: var(--corner-size)` so it begins flush with the card's left edge (after the corner element).
 
-### Corner SVG
+### Corner element
 
-`assets/edge-tag.svg` — 36×36px bookmark/tag shape. The SVG path uses absolute coordinates with a `translate(-47.107807,-82.438896)` group transform; both must be present when inlining. CSS sets the fill: `[data-theme="inkwell"] .card-corner path { fill: var(--tag-color) }` / `[data-theme="noir"] .card-corner path { fill: #2e2e2e }` (never tag color in Noir).
+`.card-corner` is a plain `<div>` (replaced the old inline SVG path). It uses `mask-image: var(--edge-img)` + `background` for color. `--edge-img` is set inline per card to `url('/assets/edges/{type}.svg')`.
+
+Per-type SVG files live in `assets/edges/` — one square SVG per post type (placeholder black rectangles, intended to be customized). They are masked to the element height; width = height = `--corner-size` (36px).
+
+**Inkwell:** `background: var(--tag-color)`  
+**Noir:** `background: var(--corner-fill)` (#2e2e2e — never tag color)
+
+## post-full pages
+
+Post articles (`layout: post`) inject `--tag-color` as an inline style on the `<article>` element via Liquid:
+- Standard posts: mapped from `page.type` using the same `github-project → github` slug rule
+- Project pages: use `page.color` directly (set in front matter)
+
+`--tag-color` drives: header `border-bottom`, `blockquote` left border, body `a` color/hover, `hr` dividers, back link hover, project link color.
+
+### Related posts
+
+`post-related.ts` is initialised by `main.ts` when `#related-posts` is present (post pages only). It reads `window.__SITE_DATA__` (all `site.posts`, embedded by `post.html`) and `window.__CURRENT_POST_URL__`.
+
+- If the post has a `project`: shows other posts in the same project ("Other posts in this project")
+- Otherwise: shows most-recent posts sharing any tag, capped at 6 ("Related posts")
+- Project overview pages (not in `site.posts`): falls back to `window.__CURRENT_PROJECT__` and shows all posts in that project ("Posts in this project")
+
+The related chips are rendered with the same `.post-card-wrap` / `.card-corner` / `.chip` structure as the timeline, so they respect the active theme automatically.
+
+## Projects
+
+### `_data/projects.yml` fields
+
+```yaml
+slug:        # matches project: front matter in posts
+name:        # display name
+color:       # hex color for bar and accent
+start:       # YYYY-MM-DD
+end:         # YYYY-MM-DD (omit for ongoing)
+repo:        # optional GitHub repo slug
+post:        # URL of the project overview page, e.g. /projects/deeper/
+description: # one-sentence description shown on the projects listing page
+```
+
+### Projects listing page (`/projects/`)
+
+`projects.md` uses `layout: projects` (`_layouts/projects.html`). It loops `site.data.projects`, counts timeline posts per project via Liquid, and renders a `.project-card-full` for each project that has at least one post. Cards link to `project.post`.
+
+SCSS in `_sass/_projects.scss` (imported in `main.scss`). Inkwell and Noir overrides are included in the same file.
+
+### Project bars
+
+Each bar gets a `--bar-index` CSS variable (0, 1, 2…) so they sit side-by-side rather than stacking. Position: `right: calc(16px + var(--bar-index) * (4px + 8px))`.
+
+Clicking the bar body (not the up/down arrows) navigates to `project.post`. Arrow clicks call `e.stopPropagation()` to prevent this.
 
 ## Skills
 

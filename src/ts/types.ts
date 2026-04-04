@@ -31,6 +31,8 @@ export interface ProjectData {
   start: string;      // "YYYY-MM-DD"
   end?: string;       // "YYYY-MM-DD" — omit/null means ongoing
   repo?: string;
+  post?: string;      // URL of the project overview page
+  description?: string;
 }
 
 export interface SiteData {

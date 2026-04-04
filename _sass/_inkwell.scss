@@ -57,52 +57,61 @@
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* ── HEADER ── */
-[data-theme="inkwell"] .site-header {
-  background: var(--bg-header);
+/* ── NAV ── */
+[data-theme="inkwell"] .top-nav {
+  background: rgba(20, 18, 16, 0.92);
   border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-[data-theme="inkwell"] .avatar {
-  width: 40px;
-  height: 40px;
+[data-theme="inkwell"] .top-nav__avatar {
   border-radius: 50%;
-  background: var(--green-dim);
-  color: #c8e8d8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 15px;
-  flex-shrink: 0;
+  border: 1.5px solid var(--border-hover);
 }
 
-[data-theme="inkwell"] .site-name {
-  font-size: 16px;
-  font-weight: 600;
+[data-theme="inkwell"] .top-nav__brand {
   color: var(--text-primary);
 }
 
-[data-theme="inkwell"] .site-tagline {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-[data-theme="inkwell"] .nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.12s ease;
-}
-
-[data-theme="inkwell"] .nav-link:hover,
-[data-theme="inkwell"] .nav-link.active {
+[data-theme="inkwell"] .top-nav__brand:hover {
   color: var(--accent);
+}
+
+[data-theme="inkwell"] .top-nav__link {
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+[data-theme="inkwell"] .top-nav__link:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-dim);
+  background: rgba(255,255,255,0.04);
+}
+
+[data-theme="inkwell"] .top-nav__divider-toggle {
+  color: var(--text-secondary);
+  border-color: var(--border);
+  background: transparent;
+}
+
+[data-theme="inkwell"] .top-nav__divider-toggle:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+
+[data-theme="inkwell"] .top-nav__style-selector {
+  border-color: var(--border);
+}
+
+[data-theme="inkwell"] .top-nav__style-btn {
+  color: var(--text-secondary);
+  background: transparent;
+  border-left-color: var(--border);
+}
+
+[data-theme="inkwell"] .top-nav__style-btn:hover,
+[data-theme="inkwell"] .top-nav__style-btn.is-active {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.06);
 }
 
 /* ── MAIN CONTENT COLUMN ── */
@@ -198,23 +207,22 @@
   filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
 }
 
-/* ── CORNER SVG TAG ──
-   The edge-tag.svg is placed here. Its right edge is flush with
-   the card's left edge. Its top is flush with the card's top.
-   Fill is set inline to var(--tag-color) or per-type color.
+/* ── CORNER ELEMENT ──
+   A div masked by the per-type SVG from assets/edges/{type}.svg.
+   The SVG is square; we display it at --corner-size × --corner-size.
+   Color is set via background, controlled by --tag-color.
 */
 [data-theme="inkwell"] .card-corner {
-  position: absolute;
-  left: 0;
-  top: 0;
+  display: block;
   width: var(--corner-size, 36px);
   height: var(--corner-size, 36px);
-  display: block;
-  z-index: 2;
-}
-
-[data-theme="inkwell"] .card-corner path {
-  fill: var(--tag-color, var(--accent));
+  background: var(--tag-color, var(--accent));
+  -webkit-mask-image: var(--edge-img);
+  mask-image: var(--edge-img);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 /* ── TOP BORDER (sweep animation) ──

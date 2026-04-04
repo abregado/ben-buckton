@@ -1,5 +1,9 @@
 @use "variables" as *;
 
+// Bar width and gap between side-by-side bars
+$bar-width: 4px;
+$bar-gap:   8px;
+
 .project-bars {
   position: relative;
   width: $project-bars-width;
@@ -8,8 +12,9 @@
 
 .project-bar {
   position: absolute;
-  right: 16px;
-  width: 4px;
+  // Each bar is offset by its column index from the right edge
+  right: calc(16px + var(--bar-index, 0) * (#{$bar-width} + #{$bar-gap}));
+  width: $bar-width;
   background: var(--project-color, $color-border);
   border-radius: 2px;
   opacity: 0.5;

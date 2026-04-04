@@ -61,57 +61,74 @@
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* ── HEADER ── */
-[data-theme="noir"] .site-header {
-  background: var(--bg-header);
+/* ── NAV ── */
+[data-theme="noir"] .top-nav {
+  background: rgba(5, 5, 5, 0.95);
   border-bottom: 1px solid var(--border-dim);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-[data-theme="noir"] .avatar {
-  width: 40px;
-  height: 40px;
+[data-theme="noir"] .top-nav__avatar {
   border-radius: 50%;
-  background: #1e1e1e;
-  color: #fff;
   border: 1px solid #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 15px;
-  flex-shrink: 0;
+  filter: grayscale(1);
 }
 
-[data-theme="noir"] .site-name {
-  font-size: 13px;
-  font-weight: 600;
+[data-theme="noir"] .top-nav__brand {
   color: #ffffff;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-[data-theme="noir"] .site-tagline {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-[data-theme="noir"] .nav-link {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-decoration: none;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  transition: color 0.12s ease;
 }
 
-[data-theme="noir"] .nav-link:hover,
-[data-theme="noir"] .nav-link.active {
+[data-theme="noir"] .top-nav__brand:hover {
   color: #ffffff;
+}
+
+[data-theme="noir"] .top-nav__link {
+  color: var(--text-secondary);
+  border-color: #222222;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="noir"] .top-nav__link:hover {
+  color: #ffffff;
+  border-color: #555555;
+  background: transparent;
+}
+
+[data-theme="noir"] .top-nav__divider-toggle {
+  color: var(--text-secondary);
+  border-color: #222222;
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="noir"] .top-nav__divider-toggle:hover {
+  color: #aaaaaa;
+  background: transparent;
+}
+
+[data-theme="noir"] .top-nav__style-selector {
+  border-color: #222222;
+}
+
+[data-theme="noir"] .top-nav__style-btn {
+  color: var(--text-dim);
+  background: transparent;
+  border-left-color: #222222;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="noir"] .top-nav__style-btn:hover {
+  color: #aaaaaa;
+  background: transparent;
+}
+
+[data-theme="noir"] .top-nav__style-btn.is-active {
+  color: #ffffff;
+  background: #1a1a1a;
 }
 
 /* ── MAIN CONTENT COLUMN ── */
@@ -213,22 +230,21 @@
   filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.7));
 }
 
-/* ── CORNER SVG TAG ──
+/* ── CORNER ELEMENT ──
    Always rendered in --corner-fill (#2e2e2e), regardless of tag type.
-   Do not apply --tag-color to the path fill in Noir.
+   Uses CSS mask — never applies --tag-color in Noir.
 */
 [data-theme="noir"] .card-corner {
-  position: absolute;
-  left: 0;
-  top: 0;
+  display: block;
   width: var(--corner-size, 36px);
   height: var(--corner-size, 36px);
-  display: block;
-  z-index: 2;
-}
-
-[data-theme="noir"] .card-corner path {
-  fill: var(--corner-fill); /* always #2e2e2e — no tag color */
+  background: var(--corner-fill);
+  -webkit-mask-image: var(--edge-img);
+  mask-image: var(--edge-img);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 /* ── TOP BORDER SWEEP ──
