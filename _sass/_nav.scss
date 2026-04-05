@@ -16,9 +16,6 @@
   border-bottom: 1px solid $color-border;
 
   &__identity {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
     flex-shrink: 0;
     margin-right: $spacing-sm;
   }
@@ -29,19 +26,30 @@
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+
+  &__home-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    text-decoration: none;
+
+    &:hover .top-nav__brand {
+      color: $color-accent;
+    }
+
+    &:hover .top-nav__avatar {
+      opacity: 0.85;
+    }
   }
 
   &__brand {
     font-size: $font-size-lg;
     font-weight: 600;
     color: $color-text;
-    text-decoration: none;
     letter-spacing: -0.02em;
-
-    &:hover {
-      color: $color-accent;
-      text-decoration: none;
-    }
+    transition: color 0.15s;
   }
 
   &__links {
