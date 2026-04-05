@@ -17,7 +17,7 @@ window.__SITE_DATA__ = {
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
       "type": {{ post.type | jsonify }},
       "tags": {{ post.tags | jsonify }},
-      "clickable": {{ post.clickable | default: true }},
+      "clickable": {% if post.clickable == nil %}true{% else %}{{ post.clickable }}{% endif %},
       "url": "{{ post.url | relative_url }}",
       "project": {{ post.project | jsonify }},
       "image": {{ post.image | jsonify }},

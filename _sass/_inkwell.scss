@@ -199,10 +199,13 @@
   position: relative;
   padding-left: var(--corner-size, 36px);
   transition: transform 0.2s ease;
+}
+
+[data-theme="inkwell"] .post-card-wrap:has(a.post-card) {
   cursor: pointer;
 }
 
-[data-theme="inkwell"] .post-card-wrap:hover {
+[data-theme="inkwell"] .post-card-wrap:has(a.post-card):hover {
   transform: translateY(-3px);
   filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
 }
@@ -245,7 +248,7 @@
   pointer-events: none;
 }
 
-[data-theme="inkwell"] .post-card-wrap:hover .card-top-border {
+[data-theme="inkwell"] .post-card-wrap:has(a.post-card):hover .card-top-border {
   transform: scaleX(1);
 }
 
@@ -279,7 +282,7 @@
   transition: opacity 0.3s ease;
 }
 
-[data-theme="inkwell"] .post-card-wrap:hover .post-card::after {
+[data-theme="inkwell"] .post-card-wrap:has(a.post-card):hover .post-card::after {
   opacity: 0.12;
 }
 
