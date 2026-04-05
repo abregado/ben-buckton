@@ -54,7 +54,8 @@ export function initRelatedPosts(data: SiteData): void {
   container.appendChild(chips);
 }
 
-function tagColorVar(type: string): string {
+function tagColorVar(type: string | null | undefined): string {
+  if (!type) return 'var(--c-default, #666)';
   const slug = type === 'github-project' ? 'github' : type;
   return `var(--c-${slug})`;
 }
@@ -63,7 +64,9 @@ function renderChip(post: PostData): HTMLElement {
   const wrap = document.createElement('div');
   wrap.className = 'post-card-wrap';
   wrap.style.setProperty('--tag-color', tagColorVar(post.type));
-  wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+  if (post.type) {
+    wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+  }
 
   const topBorder = document.createElement('div');
   topBorder.className = 'card-top-border';

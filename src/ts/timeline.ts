@@ -9,9 +9,10 @@ export class Timeline {
 
   constructor(container: HTMLElement, posts: PostData[], filter: TagFilter) {
     this.container = container;
-    // Jekyll outputs posts newest-first, but guard with an explicit sort
+    // Jekyll outputs posts newest-first, but guard with an explicit sort.
+    // Job posts sort by their end date (or first day of current month if ongoing).
     this.posts = [...posts].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      (a, b) => new Date(this.effectiveDate(b)).getTime() - new Date(this.effectiveDate(a)).getTime()
     );
     this.filter = filter;
     this.filter.addListener(() => this.render());
@@ -35,10 +36,11 @@ export class Timeline {
       return;
     }
 
-    // Group newest-first by year → month
+    // Group newest-first by year → month.
+    // Job posts group by their effective date (end, or first day of current month if ongoing).
     const byYear = new Map<number, Map<number, PostData[]>>();
     for (const post of visible) {
-      const [y, m] = post.date.split('-').map(Number) as [number, number];
+      const [y, m] = this.effectiveDate(post).split('-').map(Number) as [number, number];
       if (!byYear.has(y)) byYear.set(y, new Map());
       const byMonth = byYear.get(y)!;
       if (!byMonth.has(m)) byMonth.set(m, []);
@@ -102,7 +104,7 @@ export class Timeline {
 
     const typeLabel = document.createElement('span');
     typeLabel.className = 'tile__type-label';
-    typeLabel.textContent = POST_TYPE_LABELS[post.type as PostType] ?? post.type;
+    typeLabel.textContent = (post.type && (POST_TYPE_LABELS[post.type as PostType] ?? post.type)) || '';
 
     const title = document.createElement('h2');
     title.className = 'tile__title post-title';
@@ -140,7 +142,9 @@ export class Timeline {
     wrap.className = 'post-card-wrap';
     wrap.dataset['tags'] = post.tags.join(' ');
     wrap.style.setProperty('--tag-color', this.tagColorVar(post.type));
-    wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+    if (post.type) {
+      wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+    }
 
     const topBorder = document.createElement('div');
     topBorder.className = 'card-top-border';
@@ -170,7 +174,17 @@ export class Timeline {
     return div;
   }
 
-  private tagColorVar(type: string): string {
+  private effectiveDate(post: PostData): string {
+    if (post.type === 'job') {
+      if (post.end) return post.end;
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+    }
+    return post.date;
+  }
+
+  private tagColorVar(type: string | null | undefined): string {
+    if (!type) return 'var(--c-default, #666)';
     const slug = type === 'github-project' ? 'github' : type;
     return `var(--c-${slug})`;
   }

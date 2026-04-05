@@ -22,6 +22,8 @@ export interface PostData {
   project?: string;
   image?: string;
   excerpt: string;
+  start?: string;     // "YYYY-MM-DD" — job posts: employment start
+  end?: string;       // "YYYY-MM-DD" — job posts: employment end; omit means "until present"
 }
 
 export interface ProjectData {
