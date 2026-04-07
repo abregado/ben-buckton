@@ -8,7 +8,7 @@ external_url: http://20000blocks.wordpress.com
 featured: true
 ---
 
-I worked with the TU Darmstadt to create a Minecraft based solution for crowd-sourced architecture. 
+Worked with the TU Darmstadt to create a Minecraft based solution for crowd-sourced architecture. 
 
 The research project, "20,000 Blocks Above the Ground", started with the question: "Can gameplay be used to guide groups of non-experts through the creation of collaborative architecture designs?" Players build structures in a virtual world based on the game Minecraft. These structures are exported and processed using Rhino/Grasshopper and then fed to a robot arm which constructs physical, scaled-down models.
 

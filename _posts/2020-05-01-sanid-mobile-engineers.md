@@ -3,7 +3,8 @@ layout: post
 title: "SANID Mobile Engineers"
 date: 2020-05-01
 tags: [job]
-clickable: true
+clickable: false
+featured: true
 ---
 
-Started a role as a **Test Engineer** at **SANID Mobile Engineers**.
+**Test Engineer** using Cypress.

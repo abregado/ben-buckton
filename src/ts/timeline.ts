@@ -1,14 +1,16 @@
-import { PostData, MONTH_ABBREVS } from './types';
+import { PostData, ProjectData, MONTH_ABBREVS } from './types';
 import { TagFilter } from './tag-filter';
 
 export class Timeline {
   private showDividers = true;
   private container: HTMLElement;
   private posts: PostData[];
+  private projects: ProjectData[];
   private filter: TagFilter;
 
-  constructor(container: HTMLElement, posts: PostData[], filter: TagFilter) {
+  constructor(container: HTMLElement, posts: PostData[], projects: ProjectData[], filter: TagFilter) {
     this.container = container;
+    this.projects = projects;
     this.posts = [...posts].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -92,8 +94,6 @@ export class Timeline {
 
     if (post.external_url) {
       card.classList.add('chip--has-external');
-    } else {
-      card.appendChild(this.createIcon());
     }
 
     const wrap = this.wrapCard(post, card);
@@ -148,7 +148,6 @@ export class Timeline {
       card.appendChild(img);
     }
 
-    card.appendChild(this.createIcon());
     return this.wrapCard(post, card);
   }
 
@@ -173,15 +172,25 @@ export class Timeline {
   }
 
   private createCardElement(post: PostData, variant: 'chip' | 'tile'): HTMLElement {
-    const tag = post.clickable ? 'a' : 'div';
+    const href = this.resolveHref(post);
+    const tag = href ? 'a' : 'div';
     const el = document.createElement(tag) as HTMLElement;
     el.className = `post-card ${variant} post-type--${post.tags[0]}`;
     el.dataset['postUrl'] = post.url;
 
-    if (post.clickable && el instanceof HTMLAnchorElement) {
-      el.href = post.url;
+    if (href && el instanceof HTMLAnchorElement) {
+      el.href = href;
     }
     return el;
+  }
+
+  private resolveHref(post: PostData): string | null {
+    if (!post.clickable) return null;
+    if (post.project_link && post.project) {
+      const project = this.projects.find(p => p.slug === post.project);
+      if (project?.post) return project.post;
+    }
+    return post.url;
   }
 
   private createCornerEl(): HTMLElement {
@@ -196,10 +205,4 @@ export class Timeline {
     return `var(--c-${type})`;
   }
 
-  private createIcon(): HTMLElement {
-    const icon = document.createElement('div');
-    icon.className = 'post-icon';
-    icon.setAttribute('aria-hidden', 'true');
-    return icon;
-  }
 }

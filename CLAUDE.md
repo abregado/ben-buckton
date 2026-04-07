@@ -6,7 +6,7 @@ Jekyll 4 + esbuild (TypeScript → `assets/js/main.js`) + Jekyll Sass. Hosted on
 
 - `assets/js/main.js` is gitignored build output — it's generated in CI before `jekyll build`. Never commit it.
 - Nav has a single **Projects** link (`/projects/`) and an avatar image (`assets/avatar.png`, 512×512 PNG scaled to 36px circle). The old tag-preset buttons (Beliefs, Games, etc.) are gone.
-- Post front matter: `layout`, `title`, `date`, `tags[]` (values: `games`, `job`, `life`, `meetup` — first tag drives color/icon/label), `clickable` (bool), `project?` (slug), `image?`, `timeline?` (bool — set `false` to hide from timeline), `featured?` (bool — forces tile), `external_url?` (string)
+- Post front matter: `layout`, `title`, `date`, `tags[]` (values: `games`, `job`, `life`, `meetup` — first tag drives color/label), `clickable` (bool), `project?` (slug), `image?`, `timeline?` (bool — set `false` to hide from timeline), `featured?` (bool — forces tile), `external_url?` (string), `project_link?` (bool — card link goes to the project page instead of the post)
 - Project overview pages live in `projects/` (e.g. `projects/deeper.md`) with `permalink`, `timeline: false`, and a `color:` field that sets `--tag-color` directly on the post-full article.
 - Adding a **post type** requires 2 coordinated changes — use `/add-post-type`.
 - Adding a **project** requires an entry in `_data/projects.yml` AND a page in `projects/` — use `/add-project`.

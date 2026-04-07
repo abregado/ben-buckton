@@ -9,8 +9,9 @@ export interface PostData {
   project?: string;
   image?: string;
   excerpt: string;
-  featured?: boolean;    // always render as tile on timeline (not chip)
-  external_url?: string; // external link shown as icon on chip
+  featured?: boolean;      // always render as tile on timeline (not chip)
+  external_url?: string;   // external link shown as icon on chip
+  project_link?: boolean;  // card link goes to the project page instead of the post
 }
 
 export interface ProjectData {

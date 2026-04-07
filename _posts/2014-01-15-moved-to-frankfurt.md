@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Moved to Frankfurt"
+title: "Moved to Frankfurt, Germany"
 date: 2014-01-15
 tags: [life]
 project: chase-the-sun

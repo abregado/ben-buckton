@@ -30,15 +30,6 @@
     min-width: 0;
   }
 
-  .post-icon {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-    opacity: 0.4;
-    margin-left: auto;
-    padding-right: $spacing-xs;
-  }
-
   &.is-highlighted {
     background: $color-surface-2;
     outline: 1px solid var(--type-color, $color-border);

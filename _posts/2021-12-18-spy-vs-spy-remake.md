@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Spy vs Spy Remake"
+title: "SANID Jam - Spy vs Spy Remake"
 date: 2021-12-18
 tags: [games]
 external_url: https://github.com/abregado/spy-vs-spy

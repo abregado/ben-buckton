@@ -5,6 +5,8 @@ date: 2012-01-01
 tags: [job]
 start: 2012-01-01
 end: 2013-11-01
+clickable: false
+featured: true
 ---
 
-Purchasing officer.
+Purchasing officer and Logistics management.

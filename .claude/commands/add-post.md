@@ -25,6 +25,7 @@ project: slug            # optional — must match a slug in _data/projects.yml
 image: /assets/images/x  # optional
 featured: true           # optional — forces tile display on timeline
 external_url: https://…  # optional — adds external link icon on chip
+project_link: true       # optional — card link goes to project page instead of post
 ---
 ```
 

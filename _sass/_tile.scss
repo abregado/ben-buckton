@@ -61,15 +61,6 @@
     align-self: flex-start;
   }
 
-  .post-icon {
-    position: absolute;
-    bottom: $spacing-sm;
-    right: $spacing-sm;
-    width: 32px;
-    height: 32px;
-    opacity: 0.15;
-  }
-
   &.is-highlighted {
     background: $color-surface-2;
     outline: 1px solid var(--type-color, $color-border);

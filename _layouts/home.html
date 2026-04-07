@@ -17,7 +17,8 @@ window.__SITE_DATA__ = {
       "image": {{ post.image | jsonify }},
       "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
       "featured": {{ post.featured | default: false }},
-      "external_url": {{ post.external_url | jsonify }}
+      "external_url": {{ post.external_url | jsonify }},
+      "project_link": {{ post.project_link | default: false }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
