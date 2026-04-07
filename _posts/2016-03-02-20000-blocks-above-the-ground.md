@@ -1,0 +1,13 @@
+---
+layout: post
+title: "20,000 Blocks Above the Ground"
+date: 2016-03-02
+type: github-project
+tags: [games]
+project: 20000-blocks
+external_url: http://20000blocks.wordpress.com
+---
+
+The research project, "20,000 Blocks Above the Ground", started with the question: "Can gameplay be used to guide groups of non-experts through the creation of collaborative architecture designs?" Players build structures in a virtual world based on the game Minecraft. These structures are exported and processed using Rhino/Grasshopper and then fed to a robot arm which constructs physical, scaled-down models.
+
+The project, run by the Digital Design Unit of TU Darmstadt, aims to utilise concepts from crowdsourcing and game design in architecture.

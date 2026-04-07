@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Moved to Frankfurt"
+date: 2014-01-15
+type: life-event
+tags: [life]
+project: chase-the-sun
+---
+
+Moved to Frankfurt as part of the Chase the Sun lifestyle — six months in Germany, six months in Australia.

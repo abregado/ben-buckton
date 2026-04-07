@@ -25,3 +25,40 @@
   repo: "ben-buckton/echolib"
   post: "/projects/echolib/"
   description: "A TypeScript library for positional audio in browser-based games, now open source."
+
+- slug: chase-the-sun
+  name: "Chase the Sun"
+  color: "#f0c040"
+  start: "2014-01-01"
+  end: "2020-05-01"
+  post: "/projects/chase-the-sun/"
+  description: "Lived in Germany for 6 months and Australia for the other 6, chasing the warm weather."
+
+- slug: factorio
+  name: "Factorio"
+  color: "#f07030"
+  start: "2018-01-01"
+  end: "2020-07-01"
+  post: "/projects/factorio/"
+  description: "Tutorial designer at Wube Software, authoring the Factorio new-player experience and campaign."
+
+- slug: meetup
+  name: "GameDevTreff"
+  color: "#e84c3d"
+  start: "2014-04-01"
+  post: "/projects/meetup/"
+  description: "Organising game developer meetups in Frankfurt and Bochum."
+
+- slug: piperspace
+  name: "Piperspace"
+  color: "#4a9eff"
+  start: "2026-04-01"
+  post: "/projects/piperspace/"
+  description: "Piperspace — now on Steam."
+
+- slug: kobold-underground-agency
+  name: "Kobold Underground Agency"
+  color: "#6bc45e"
+  start: "2020-01-01"
+  post: "/projects/kobold-underground-agency/"
+  description: "Kobold Underground Agency — a game about managing a secret kobold agency."
