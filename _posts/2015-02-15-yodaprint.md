@@ -6,6 +6,8 @@ tags: [job]
 start: 2015-03-01
 end: 2015-06-01
 featured: true
+clickable: false
+
 ---
 
 Physical board game production in a micro-factory.
