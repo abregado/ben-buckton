@@ -2,30 +2,6 @@
 # slug must match the `project:` front matter value in posts.
 # end: omit or leave null for ongoing projects (treated as today).
 
-- slug: deeper
-  name: "Deeper"
-  color: "#79c0ff"
-  start: "2021-04-10"
-  post: "/projects/deeper/"
-  description: "A puzzle-platformer about a deep-sea diver uncovering ancient ruins, started at Ludum Dare 48."
-  # end: null  — ongoing
-
-- slug: laser-workshop
-  name: "Laser Workshop"
-  color: "#ffa657"
-  start: "2021-11-05"
-  post: "/projects/laser-workshop/"
-  description: "Experiments and builds using a CO2 laser cutter — from first cuts to finished pieces."
-  # end: null  — ongoing
-
-- slug: echolib
-  name: "EchoLib"
-  color: "#bc8cff"
-  start: "2025-08-22"
-  repo: "ben-buckton/echolib"
-  post: "/projects/echolib/"
-  description: "A TypeScript library for positional audio in browser-based games, now open source."
-
 - slug: chase-the-sun
   name: "Chase the Sun"
   color: "#f0c040"
@@ -40,7 +16,7 @@
   start: "2018-01-01"
   end: "2020-07-01"
   post: "/projects/factorio/"
-  description: "Tutorial designer at Wube Software, authoring the Factorio new-player experience and campaign."
+  description: "Stuff to do with my time at Wube Software."
 
 - slug: meetup
   name: "GameDevTreff"
@@ -54,11 +30,11 @@
   color: "#4a9eff"
   start: "2026-04-01"
   post: "/projects/piperspace/"
-  description: "Piperspace — now on Steam."
+  description: "a building game where everything is solved with pipes."
 
 - slug: kobold-underground-agency
   name: "Kobold Underground Agency"
   color: "#6bc45e"
   start: "2020-01-01"
   post: "/projects/kobold-underground-agency/"
-  description: "Kobold Underground Agency — a game about managing a secret kobold agency."
+  description: "a 2D physics vehicle building game."
