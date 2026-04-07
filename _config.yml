@@ -1,7 +1,7 @@
 title: Ben Buckton
 description: Game dev, maker, and house husband.
-baseurl: ""
-url: "https://benbuckton.com"
+baseurl: "/ben-buckton"
+url: "https://abregado.github.io"
 
 permalink: /posts/:year/:month/:day/:title/
 
