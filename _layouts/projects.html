@@ -4,21 +4,73 @@ layout: default
 <div class="projects-page">
   <h1 class="projects-page__title">Projects</h1>
 
-  {% for project in site.data.projects %}
-    {% assign project_posts = site.posts | where: "project", project.slug | where_exp: "p", "p.timeline != false" %}
-    {% if project_posts.size > 0 %}
-    <a href="{{ project.post | relative_url }}" class="project-card-full" style="--project-color: {{ project.color }}">
-      <div class="project-card-full__accent"></div>
-      <div class="project-card-full__body">
-        <div class="project-card-full__header">
-          <span class="project-card-full__name">{{ project.name }}</span>
-          <span class="project-card-full__pip">{{ project_posts.size }}</span>
-        </div>
-        {% if project.description %}
-        <p class="project-card-full__desc">{{ project.description }}</p>
+  {% comment %}
+    Build two ordered lists of project slugs by walking site.posts newest-first.
+    The first post encountered for a project determines its position.
+  {% endcomment %}
+  {% assign _seen = "" %}
+  {% assign _active_slugs = "" %}
+  {% assign _archived_slugs = "" %}
+
+  {% for post in site.posts %}
+    {% if post.project and post.timeline != false %}
+      {% unless _seen contains post.project %}
+        {% assign _proj = site.data.projects | where: "slug", post.project | first %}
+        {% if _proj %}
+          {% assign _seen = _seen | append: post.project | append: "|" %}
+          {% if _proj.archived %}
+            {% assign _archived_slugs = _archived_slugs | append: post.project | append: "|" %}
+          {% else %}
+            {% assign _active_slugs = _active_slugs | append: post.project | append: "|" %}
+          {% endif %}
         {% endif %}
-      </div>
-    </a>
+      {% endunless %}
     {% endif %}
   {% endfor %}
+
+  {% assign _active_list = _active_slugs | split: "|" %}
+  {% assign _archived_list = _archived_slugs | split: "|" %}
+
+  {% comment %} ── Active projects ── {% endcomment %}
+  {% for slug in _active_list %}
+    {% if slug != "" %}
+      {% assign project = site.data.projects | where: "slug", slug | first %}
+      {% assign project_posts = site.posts | where: "project", slug | where_exp: "p", "p.timeline != false" %}
+      <a href="{{ project.post | relative_url }}" class="project-card-full" style="--project-color: {{ project.color }}">
+        <div class="project-card-full__accent"></div>
+        <div class="project-card-full__body">
+          <div class="project-card-full__header">
+            <span class="project-card-full__name">{{ project.name }}</span>
+            <span class="project-card-full__pip">{{ project_posts.size }}</span>
+          </div>
+          {% if project.description %}
+          <p class="project-card-full__desc">{{ project.description }}</p>
+          {% endif %}
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+
+  {% comment %} ── Archived projects ── {% endcomment %}
+  {% if _archived_slugs != "" %}
+    <h2 class="projects-page__section-title">Archived</h2>
+    {% for slug in _archived_list %}
+      {% if slug != "" %}
+        {% assign project = site.data.projects | where: "slug", slug | first %}
+        {% assign project_posts = site.posts | where: "project", slug | where_exp: "p", "p.timeline != false" %}
+        <a href="{{ project.post | relative_url }}" class="project-card-full project-card-full--archived" style="--project-color: {{ project.color }}">
+          <div class="project-card-full__accent"></div>
+          <div class="project-card-full__body">
+            <div class="project-card-full__header">
+              <span class="project-card-full__name">{{ project.name }}</span>
+              <span class="project-card-full__pip">{{ project_posts.size }}</span>
+            </div>
+            {% if project.description %}
+            <p class="project-card-full__desc">{{ project.description }}</p>
+            {% endif %}
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 </div>

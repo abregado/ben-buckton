@@ -9,6 +9,7 @@
   end: "2020-05-01"
   post: "/projects/chase-the-sun/"
   description: "Lived in Germany for 6 months and Australia for the other 6, chasing the warm weather."
+  archived: true
 
 - slug: factorio
   name: "Factorio"
@@ -17,6 +18,7 @@
   end: "2020-07-01"
   post: "/projects/factorio/"
   description: "Stuff to do with my time at Wube Software."
+  archived: true
 
 - slug: meetup
   name: "GameDevTreff"
@@ -24,6 +26,7 @@
   start: "2014-04-01"
   post: "/projects/meetup/"
   description: "Organising game developer meetups in Frankfurt and Bochum."
+  archived: false
 
 - slug: piperspace
   name: "Piperspace"
@@ -31,6 +34,7 @@
   start: "2026-04-01"
   post: "/projects/piperspace/"
   description: "a building game where everything is solved with pipes."
+  archived: false
 
 - slug: kobold-underground-agency
   name: "Kobold Underground Agency"
@@ -38,3 +42,4 @@
   start: "2020-01-01"
   post: "/projects/kobold-underground-agency/"
   description: "a 2D physics vehicle building game."
+  archived: true

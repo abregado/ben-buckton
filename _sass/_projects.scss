@@ -11,6 +11,16 @@
     letter-spacing: -0.03em;
     margin-bottom: $spacing-xl;
   }
+
+  &__section-title {
+    font-size: $font-size-base;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $color-text-muted;
+    margin-top: $spacing-xl;
+    margin-bottom: $spacing-md;
+  }
 }
 
 .project-card-full {
@@ -76,11 +86,37 @@
     color: $color-text-muted;
     line-height: 1.55;
   }
+
+  &--archived {
+    .project-card-full__accent {
+      background: $color-border;
+    }
+
+    .project-card-full__pip {
+      background: $color-border;
+      color: $color-text-muted;
+    }
+
+    &:hover {
+      .project-card-full__accent {
+        background: var(--project-color, $color-border);
+      }
+
+      .project-card-full__pip {
+        background: var(--project-color, $color-border);
+        color: $color-bg;
+      }
+    }
+  }
 }
 
 // Theme overrides
 [data-theme="inkwell"] .projects-page__title {
   color: var(--text-primary);
+}
+
+[data-theme="inkwell"] .projects-page__section-title {
+  color: var(--text-secondary);
 }
 
 [data-theme="inkwell"] .project-card-full {
@@ -98,11 +134,37 @@
   &__desc {
     color: var(--text-secondary);
   }
+
+  &--archived {
+    .project-card-full__accent {
+      background: var(--border);
+    }
+
+    .project-card-full__pip {
+      background: var(--border);
+      color: var(--text-secondary);
+    }
+
+    &:hover {
+      .project-card-full__accent {
+        background: var(--project-color, var(--border));
+      }
+
+      .project-card-full__pip {
+        background: var(--project-color, var(--border));
+        color: var(--bg-page);
+      }
+    }
+  }
 }
 
 [data-theme="noir"] .projects-page__title {
   color: var(--text-primary);
   letter-spacing: 0.04em;
+}
+
+[data-theme="noir"] .projects-page__section-title {
+  color: var(--text-secondary);
 }
 
 [data-theme="noir"] .project-card-full {
@@ -131,4 +193,5 @@
   &__desc {
     color: var(--text-secondary);
   }
+  // Archived cards look the same in Noir — already desaturated by design
 }
