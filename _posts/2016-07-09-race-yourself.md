@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Race Yourself"
+title: "LD Minijam 51 - Race Yourself"
 date: 2016-07-09
 tags: [games]
 external_url: https://binarygambit.itch.io/race-yourself
