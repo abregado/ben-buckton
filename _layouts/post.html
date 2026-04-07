@@ -6,7 +6,7 @@ layout: default
 {% if page.color %}
   {% assign post_tag_color = page.color %}
 {% else %}
-  {% assign type_slug = page.type | replace: 'github-project', 'github' %}
+  {% assign type_slug = page.tags[0] | replace: 'github-project', 'github' %}
   {% capture post_tag_color %}var(--c-{{ type_slug }}){% endcapture %}
 {% endif %}
 window.__SITE_DATA__ = {
@@ -15,15 +15,14 @@ window.__SITE_DATA__ = {
     {
       "title": {{ post.title | jsonify }},
       "date": "{{ post.date | date: '%Y-%m-%d' }}",
-      "type": {{ post.type | jsonify }},
       "tags": {{ post.tags | jsonify }},
       "clickable": {% if post.clickable == nil %}true{% else %}{{ post.clickable }}{% endif %},
       "url": "{{ post.url | relative_url }}",
       "project": {{ post.project | jsonify }},
       "image": {{ post.image | jsonify }},
       "excerpt": {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
-      "start": {% if post.start %}"{{ post.start | date: '%Y-%m-%d' }}"{% else %}null{% endif %},
-      "end": {% if post.end %}"{{ post.end | date: '%Y-%m-%d' }}"{% else %}null{% endif %}
+      "featured": {{ post.featured | default: false }},
+      "external_url": {{ post.external_url | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
@@ -33,10 +32,10 @@ window.__CURRENT_POST_URL__ = "{{ page.url | relative_url }}";
 {% if page.project %}window.__CURRENT_PROJECT__ = "{{ page.project }}";{% endif %}
 </script>
 
-<article class="post-full post-type--{{ page.type }}" style="--tag-color: {{ post_tag_color }}">
+<article class="post-full post-type--{{ page.tags[0] }}" style="--tag-color: {{ post_tag_color }}">
   <header class="post-full__header">
     <div class="post-full__meta">
-      <span class="post-full__type-label">{{ page.type | replace: '-', ' ' | capitalize }}</span>
+      <span class="post-full__type-label">{{ page.tags[0] | replace: '-', ' ' | capitalize }}</span>
       <time class="post-full__date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
         {{ page.date | date: "%B %-d, %Y" }}
       </time>
@@ -44,7 +43,7 @@ window.__CURRENT_POST_URL__ = "{{ page.url | relative_url }}";
 
     <h1 class="post-full__title">{{ page.title }}</h1>
 
-    {% if page.type == 'job' %}
+    {% if page.tags[0] == 'job' %}
     <div class="post-full__job-dates">
       {% if page.start %}
       <time datetime="{{ page.start | date: '%Y-%m-%d' }}">{{ page.start | date: "%B %Y" }}</time>

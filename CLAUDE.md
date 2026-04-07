@@ -6,9 +6,9 @@ Jekyll 4 + esbuild (TypeScript → `assets/js/main.js`) + Jekyll Sass. Hosted on
 
 - `assets/js/main.js` is gitignored build output — it's generated in CI before `jekyll build`. Never commit it.
 - Nav has a single **Projects** link (`/projects/`) and an avatar image (`assets/avatar.png`, 512×512 PNG scaled to 36px circle). The old tag-preset buttons (Beliefs, Games, etc.) are gone.
-- Post front matter: `layout`, `title`, `date`, `type`, `tags[]`, `clickable` (bool), `project?` (slug), `image?`, `timeline?` (bool — set `false` to hide from timeline)
+- Post front matter: `layout`, `title`, `date`, `tags[]` (values: `games`, `job`, `life`, `meetup` — first tag drives color/icon/label), `clickable` (bool), `project?` (slug), `image?`, `timeline?` (bool — set `false` to hide from timeline), `featured?` (bool — forces tile), `external_url?` (string)
 - Project overview pages live in `projects/` (e.g. `projects/deeper.md`) with `permalink`, `timeline: false`, and a `color:` field that sets `--tag-color` directly on the post-full article.
-- Adding a **post type** requires 3 coordinated changes — use `/add-post-type`.
+- Adding a **post type** requires 2 coordinated changes — use `/add-post-type`.
 - Adding a **project** requires an entry in `_data/projects.yml` AND a page in `projects/` — use `/add-project`.
 
 ## Default theme
@@ -23,14 +23,11 @@ CSS lives in `_sass/_inkwell.scss` and `_sass/_noir.scss`, compiled into the mai
 
 ### Tag color variables
 
-Defined at `:root` in both theme files. Used as `--tag-color` inline on `.post-card-wrap` (timeline cards) and as an inline style on `.post-full` articles (set via Liquid from `page.type`, or directly from `page.color` for project pages):
+Defined at `:root` in both theme files. Used as `--tag-color` inline on `.post-card-wrap` (timeline cards) and as an inline style on `.post-full` articles (set via Liquid from `page.tags[0]`, or directly from `page.color` for project pages):
 
 ```
---c-microblog, --c-gamejam, --c-game-update, --c-laser-update, --c-physical-game,
---c-github, --c-meetup, --c-life-event, --c-recipe, --c-job
+--c-games, --c-job, --c-life, --c-meetup
 ```
-
-Note: post type `github-project` maps to `--c-github` (see `tagColorVar()` in `timeline.ts` and `post-related.ts`).
 
 **Inkwell:** tag colors used on card left border, corner element fill, top border sweep, hover tint, and post-full dividers/links.  
 **Noir:** tag colors used **only** in filter row dots. All card and post-full elements are forced to gray.
@@ -43,7 +40,7 @@ Note: post type `github-project` maps to `--c-github` (see `tagColorVar()` in `t
 .post-card-wrap  (hover target; --tag-color, --edge-img, data-tags set inline)
 ├── .card-top-border   (sibling div — NOT ::before, so it isn't clipped by card overflow:hidden)
 ├── .card-corner       (div masked by --edge-img; absolute, left:0 top:0; 36×36px)
-└── .post-card.chip / .post-card.tile  (inner card; also carries .post-type--{type})
+└── .post-card.chip / .post-card.tile  (inner card; also carries .post-type--{tags[0]})
     └── .post-title / .post-excerpt / .post-secondary-tags
 ```
 
@@ -64,7 +61,7 @@ The top border sweep uses `transform: scaleX(0→1)` with `transform-origin: lef
 
 ### Corner element
 
-`.card-corner` is a plain `<div>` (replaced the old inline SVG path). It uses `mask-image: var(--edge-img)` + `background` for color. `--edge-img` is set inline per card to `url('/assets/edges/{type}.svg')`.
+`.card-corner` is a plain `<div>` (replaced the old inline SVG path). It uses `mask-image: var(--edge-img)` + `background` for color. `--edge-img` is set inline per card to `url('/assets/edges/{tags[0]}.svg')`.
 
 Per-type SVG files live in `assets/edges/` — one square SVG per post type (placeholder black rectangles, intended to be customized). They are masked to the element height; width = height = `--corner-size` (36px).
 
@@ -74,7 +71,7 @@ Per-type SVG files live in `assets/edges/` — one square SVG per post type (pla
 ## post-full pages
 
 Post articles (`layout: post`) inject `--tag-color` as an inline style on the `<article>` element via Liquid:
-- Standard posts: mapped from `page.type` using the same `github-project → github` slug rule
+- Standard posts: mapped from `page.tags[0]` using the same `github-project → github` slug rule
 - Project pages: use `page.color` directly (set in front matter)
 
 `--tag-color` drives: header `border-bottom`, `blockquote` left border, body `a` color/hover, `hr` dividers, back link hover, project link color.
@@ -110,19 +107,13 @@ description: # one-sentence description shown on the projects listing page
 
 SCSS in `_sass/_projects.scss` (imported in `main.scss`). Inkwell and Noir overrides are included in the same file.
 
-### Project bars
-
-Each bar gets a `--bar-index` CSS variable (0, 1, 2…) so they sit side-by-side rather than stacking. Position: `right: calc(16px + var(--bar-index) * (4px + 8px))`.
-
-Clicking the bar body (not the up/down arrows) navigates to `project.post`. Arrow clicks call `e.stopPropagation()` to prevent this.
-
 ## Skills
 
 | Command | Use for |
 |---|---|
 | `/add-post` | Create a new post |
-| `/add-project` | Add a project to the timeline bars |
-| `/add-post-type` | Register a new post type (SCSS + TS + icon) |
+| `/add-project` | Add a project |
+| `/add-post-type` | Register a new post type (SCSS + icon) |
 
 ## Writing skills
 

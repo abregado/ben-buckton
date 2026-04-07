@@ -2,8 +2,7 @@
 layout: post
 title: "SANID Mobile Engineers"
 date: 2020-05-01
-type: job
-tags: [jobs]
+tags: [job]
 clickable: true
 ---
 

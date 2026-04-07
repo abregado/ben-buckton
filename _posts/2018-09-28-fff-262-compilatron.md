@@ -2,7 +2,6 @@
 layout: post
 title: "FFF #262 — Hello My Name Is: Compilatron"
 date: 2018-09-28
-type: game-update
 tags: [games]
 project: factorio
 external_url: https://factorio.com/blog/post/fff-262

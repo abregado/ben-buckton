@@ -2,7 +2,6 @@
 layout: post
 title: "Hacknophobia"
 date: 2022-03-13
-type: gamejam
 tags: [games]
 external_url: https://abregado.itch.io/hacknophobia
 ---

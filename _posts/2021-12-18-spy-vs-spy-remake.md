@@ -2,8 +2,7 @@
 layout: post
 title: "Spy vs Spy Remake"
 date: 2021-12-18
-type: gamejam
-tags: [gamejam]
+tags: [games]
 external_url: https://github.com/abregado/spy-vs-spy
 ---
 

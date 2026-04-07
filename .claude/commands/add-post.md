@@ -2,20 +2,16 @@ Create a new Jekyll post for this portfolio site.
 
 User arguments: $ARGUMENTS
 
-If no arguments were given, ask the user for: post type, title, date, tags, and whether it belongs to a project.
+If no arguments were given, ask the user for: the first tag (which acts as the post "type"), title, date, remaining tags, and whether it belongs to a project.
 
-## Post types
-`microblog` | `gamejam` | `game-update` | `laser-update` | `physical-game` | `github-project` | `meetup` | `life-event` | `recipe` | `job`
+## Tags
+Only four tag values are used. The first tag drives the card color, corner icon, and type label:
+- `games` — game jams, game updates, physical games, tools
+- `job` — employment history
+- `life` — life events, milestones
+- `meetup` — meetup events
 
-## Tag conventions
-Nav preset tags (these make posts appear under that nav button):
-- `beliefs` — appears under Beliefs
-- `games` — appears under Games
-- `cooking` — appears under Cooking
-- `meetup` — appears under Meetup
-- `life` — appears under Life
-
-Other common tags: `code`, `making`, `jobs`
+Posts can have multiple tags, e.g. `[job, life]` or `[games, job]`.
 
 ## Front matter schema
 ```yaml
@@ -23,11 +19,12 @@ Other common tags: `code`, `making`, `jobs`
 layout: post
 title: "..."
 date: YYYY-MM-DD
-type: <type>
-tags: [tag1, tag2]
+tags: [games]                    # one or more of: games, job, life, meetup
 clickable: true          # false = static card with no link
 project: slug            # optional — must match a slug in _data/projects.yml
 image: /assets/images/x  # optional
+featured: true           # optional — forces tile display on timeline
+external_url: https://…  # optional — adds external link icon on chip
 ---
 ```
 

@@ -2,7 +2,6 @@
 layout: post
 title: "Geary Grinder"
 date: 2019-10-01
-type: gamejam
 tags: [games]
 external_url: https://ldjam.com/events/ludum-dare/45/geary-grinder
 ---

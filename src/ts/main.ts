@@ -1,7 +1,6 @@
 import { SiteData } from './types';
 import { TagFilter } from './tag-filter';
 import { Timeline } from './timeline';
-import { ProjectBars } from './project-bars';
 import { initRelatedPosts } from './post-related';
 
 declare global {
@@ -81,17 +80,6 @@ function init(): void {
       }
     });
   });
-
-  // ── Project bars ──────────────────────────────────────────────────────────
-  const projectBarsEl = document.getElementById('project-bars');
-  if (projectBarsEl && timelineEl && data.projects?.length > 0) {
-    const projectBars = new ProjectBars(projectBarsEl, timelineEl, data.projects, data.posts);
-    projectBars.render();
-
-    filter.addListener(() => {
-      requestAnimationFrame(() => projectBars.updatePositions());
-    });
-  }
 
   // ── Related posts (post pages only) ──────────────────────────────────────
   if (document.getElementById('related-posts')) {

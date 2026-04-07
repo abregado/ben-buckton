@@ -2,10 +2,10 @@
 layout: post
 title: "Zusammenspiel"
 date: 2014-11-01
-type: job
-tags: [life]
+tags: [job]
 start: 2014-11-01
 end: 2015-02-01
+featured: true
 ---
 
-Event coordinator.
+Designed city wide GPS treasure hunts.

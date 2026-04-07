@@ -9,16 +9,10 @@ $color-accent:     #58a6ff;
 
 // ── Post type accent colours ───────────────────────────────────────────────
 $post-type-colors: (
-  "microblog":      #58a6ff,
-  "gamejam":        #bc8cff,
-  "game-update":    #79c0ff,
-  "laser-update":   #ffa657,
-  "physical-game":  #56d364,
-  "github-project": #f0f6fc,
-  "meetup":         #3fb950,
-  "life-event":     #e3b341,
-  "recipe":         #ff7b72,
-  "job":            #d2a679
+  "games":   #bc8cff,
+  "job":     #d2a679,
+  "life":    #e3b341,
+  "meetup":  #3fb950
 );
 
 // ── Spacing ────────────────────────────────────────────────────────────────

@@ -2,7 +2,6 @@
 layout: post
 title: "FFF #291 — New Campaign"
 date: 2019-04-19
-type: game-update
 tags: [games]
 project: factorio
 external_url: https://factorio.com/blog/post/fff-291

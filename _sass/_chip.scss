@@ -43,4 +43,27 @@
     background: $color-surface-2;
     outline: 1px solid var(--type-color, $color-border);
   }
+
+  &--has-external {
+    padding-right: 40px;
+  }
+}
+
+.chip__external-link {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-muted;
+  text-decoration: none;
+  z-index: 5;
+
+  &:hover {
+    color: $color-text;
+    text-decoration: none;
+  }
 }

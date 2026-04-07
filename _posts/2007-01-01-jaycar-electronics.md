@@ -2,8 +2,7 @@
 layout: post
 title: "Jaycar Electronics"
 date: 2007-01-01
-type: job
-tags: [life]
+tags: [job]
 start: 2007-01-01
 end: 2010-01-01
 ---

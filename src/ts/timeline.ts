@@ -1,4 +1,4 @@
-import { PostData, PostType, POST_TYPE_LABELS, MONTH_ABBREVS } from './types';
+import { PostData, MONTH_ABBREVS } from './types';
 import { TagFilter } from './tag-filter';
 
 export class Timeline {
@@ -9,10 +9,8 @@ export class Timeline {
 
   constructor(container: HTMLElement, posts: PostData[], filter: TagFilter) {
     this.container = container;
-    // Jekyll outputs posts newest-first, but guard with an explicit sort.
-    // Job posts sort by their end date (or first day of current month if ongoing).
     this.posts = [...posts].sort(
-      (a, b) => new Date(this.effectiveDate(b)).getTime() - new Date(this.effectiveDate(a)).getTime()
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
     this.filter = filter;
     this.filter.addListener(() => this.render());
@@ -37,10 +35,9 @@ export class Timeline {
     }
 
     // Group newest-first by year → month.
-    // Job posts group by their effective date (end, or first day of current month if ongoing).
     const byYear = new Map<number, Map<number, PostData[]>>();
     for (const post of visible) {
-      const [y, m] = this.effectiveDate(post).split('-').map(Number) as [number, number];
+      const [y, m] = post.date.split('-').map(Number) as [number, number];
       if (!byYear.has(y)) byYear.set(y, new Map());
       const byMonth = byYear.get(y)!;
       if (!byMonth.has(m)) byMonth.set(m, []);
@@ -71,7 +68,7 @@ export class Timeline {
         cardsCol.className = 'timeline__month-cards';
 
         for (const post of byYear.get(year)!.get(month)!) {
-          cardsCol.appendChild(isFirst ? this.renderTile(post) : this.renderChip(post));
+          cardsCol.appendChild((isFirst || post.featured) ? this.renderTile(post) : this.renderChip(post));
           isFirst = false;
         }
 
@@ -92,8 +89,27 @@ export class Timeline {
     title.textContent = post.title;
 
     card.appendChild(title);
-    card.appendChild(this.createIcon());
-    return this.wrapCard(post, card);
+
+    if (post.external_url) {
+      card.classList.add('chip--has-external');
+    } else {
+      card.appendChild(this.createIcon());
+    }
+
+    const wrap = this.wrapCard(post, card);
+
+    if (post.external_url) {
+      const extLink = document.createElement('a');
+      extLink.className = 'chip__external-link';
+      extLink.href = post.external_url;
+      extLink.target = '_blank';
+      extLink.rel = 'noopener noreferrer';
+      extLink.setAttribute('aria-label', 'Open external link');
+      extLink.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg>';
+      wrap.appendChild(extLink);
+    }
+
+    return wrap;
   }
 
   private renderTile(post: PostData): HTMLElement {
@@ -104,7 +120,8 @@ export class Timeline {
 
     const typeLabel = document.createElement('span');
     typeLabel.className = 'tile__type-label';
-    typeLabel.textContent = (post.type && (POST_TYPE_LABELS[post.type as PostType] ?? post.type)) || '';
+    const rawType = post.tags[0] ?? '';
+    typeLabel.textContent = rawType.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
     const title = document.createElement('h2');
     title.className = 'tile__title post-title';
@@ -141,9 +158,9 @@ export class Timeline {
     const wrap = document.createElement('div');
     wrap.className = 'post-card-wrap';
     wrap.dataset['tags'] = post.tags.join(' ');
-    wrap.style.setProperty('--tag-color', this.tagColorVar(post.type));
-    if (post.type) {
-      wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+    wrap.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
+    if (post.tags[0]) {
+      wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.tags[0]}.svg')`);
     }
 
     const topBorder = document.createElement('div');
@@ -158,7 +175,7 @@ export class Timeline {
   private createCardElement(post: PostData, variant: 'chip' | 'tile'): HTMLElement {
     const tag = post.clickable ? 'a' : 'div';
     const el = document.createElement(tag) as HTMLElement;
-    el.className = `post-card ${variant} post-type--${post.type}`;
+    el.className = `post-card ${variant} post-type--${post.tags[0]}`;
     el.dataset['postUrl'] = post.url;
 
     if (post.clickable && el instanceof HTMLAnchorElement) {
@@ -174,19 +191,9 @@ export class Timeline {
     return div;
   }
 
-  private effectiveDate(post: PostData): string {
-    if (post.type === 'job') {
-      if (post.end) return post.end;
-      const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
-    }
-    return post.date;
-  }
-
   private tagColorVar(type: string | null | undefined): string {
     if (!type) return 'var(--c-default, #666)';
-    const slug = type === 'github-project' ? 'github' : type;
-    return `var(--c-${slug})`;
+    return `var(--c-${type})`;
   }
 
   private createIcon(): HTMLElement {

@@ -49,6 +49,7 @@ button {
 // the wrap adds no left padding so the existing chip/tile layout is unchanged.
 .post-card-wrap {
   padding-left: 0;
+  position: relative;
 }
 .card-corner {
   display: none;

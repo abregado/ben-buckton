@@ -1,29 +1,16 @@
 export type TagState = 'allowed' | 'disallowed' | 'ignored';
 
-export type PostType =
-  | 'microblog'
-  | 'gamejam'
-  | 'game-update'
-  | 'laser-update'
-  | 'physical-game'
-  | 'github-project'
-  | 'meetup'
-  | 'life-event'
-  | 'recipe'
-  | 'job';
-
 export interface PostData {
   title: string;
   date: string;       // "YYYY-MM-DD"
-  type: PostType;
-  tags: string[];
+  tags: string[];     // tags[0] is the post "type" (drives color, icon, label)
   clickable: boolean;
   url: string;
   project?: string;
   image?: string;
   excerpt: string;
-  start?: string;     // "YYYY-MM-DD" — job posts: employment start
-  end?: string;       // "YYYY-MM-DD" — job posts: employment end; omit means "until present"
+  featured?: boolean;    // always render as tile on timeline (not chip)
+  external_url?: string; // external link shown as icon on chip
 }
 
 export interface ProjectData {
@@ -43,27 +30,13 @@ export interface SiteData {
 }
 
 // Nav preset → tags to set as "allowed"
-export type NavPreset = 'beliefs' | 'games' | 'cooking' | 'meetup' | 'life';
+export type NavPreset = 'games' | 'job' | 'life' | 'meetup';
 
 export const NAV_PRESETS: Record<NavPreset, string[]> = {
-  beliefs: ['beliefs'],
-  games:   ['games'],
-  cooking: ['cooking'],
-  meetup:  ['meetup'],
-  life:    ['life'],
-};
-
-export const POST_TYPE_LABELS: Record<PostType, string> = {
-  'microblog':      'Microblog',
-  'gamejam':        'Game Jam',
-  'game-update':    'Game Update',
-  'laser-update':   'Laser Project',
-  'physical-game':  'Physical Game',
-  'github-project': 'GitHub Project',
-  'meetup':         'Meetup',
-  'life-event':     'Life Event',
-  'recipe':         'Recipe',
-  'job':            'Job',
+  games:  ['games'],
+  job:    ['job'],
+  life:   ['life'],
+  meetup: ['meetup'],
 };
 
 export const MONTH_ABBREVS = [

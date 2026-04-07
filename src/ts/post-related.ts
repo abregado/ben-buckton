@@ -54,18 +54,17 @@ export function initRelatedPosts(data: SiteData): void {
   container.appendChild(chips);
 }
 
-function tagColorVar(type: string | null | undefined): string {
-  if (!type) return 'var(--c-default, #666)';
-  const slug = type === 'github-project' ? 'github' : type;
-  return `var(--c-${slug})`;
+function tagColorVar(tag: string | undefined): string {
+  if (!tag) return 'var(--c-default, #666)';
+  return `var(--c-${tag})`;
 }
 
 function renderChip(post: PostData): HTMLElement {
   const wrap = document.createElement('div');
   wrap.className = 'post-card-wrap';
-  wrap.style.setProperty('--tag-color', tagColorVar(post.type));
-  if (post.type) {
-    wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.type}.svg')`);
+  wrap.style.setProperty('--tag-color', tagColorVar(post.tags[0]));
+  if (post.tags[0]) {
+    wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.tags[0]}.svg')`);
   }
 
   const topBorder = document.createElement('div');
@@ -77,7 +76,7 @@ function renderChip(post: PostData): HTMLElement {
 
   const tag = post.clickable ? 'a' : 'div';
   const card = document.createElement(tag) as HTMLElement;
-  card.className = `post-card chip post-type--${post.type}`;
+  card.className = `post-card chip post-type--${post.tags[0]}`;
   card.dataset['postUrl'] = post.url;
   if (post.clickable && card instanceof HTMLAnchorElement) {
     card.href = post.url;
@@ -88,8 +87,24 @@ function renderChip(post: PostData): HTMLElement {
   title.textContent = post.title;
   card.appendChild(title);
 
+  if (post.external_url) {
+    card.classList.add('chip--has-external');
+  }
+
   wrap.appendChild(topBorder);
   wrap.appendChild(corner);
   wrap.appendChild(card);
+
+  if (post.external_url) {
+    const extLink = document.createElement('a');
+    extLink.className = 'chip__external-link';
+    extLink.href = post.external_url;
+    extLink.target = '_blank';
+    extLink.rel = 'noopener noreferrer';
+    extLink.setAttribute('aria-label', 'Open external link');
+    extLink.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg>';
+    wrap.appendChild(extLink);
+  }
+
   return wrap;
 }
