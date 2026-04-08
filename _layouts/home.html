@@ -22,7 +22,8 @@ window.__SITE_DATA__ = {
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
-  projects: {{ site.data.projects | jsonify }}
+  projects: {{ site.data.projects | jsonify }},
+  baseurl: {{ site.baseurl | jsonify }}
 };
 </script>
 

@@ -49,7 +49,7 @@ export function initRelatedPosts(data: SiteData): void {
   const chips = document.createElement('div');
   chips.className = 'related-posts__chips';
   for (const post of related) {
-    chips.appendChild(renderChip(post));
+    chips.appendChild(renderChip(post, data.baseurl ?? ''));
   }
   container.appendChild(chips);
 }
@@ -59,12 +59,12 @@ function tagColorVar(tag: string | undefined): string {
   return `var(--c-${tag})`;
 }
 
-function renderChip(post: PostData): HTMLElement {
+function renderChip(post: PostData, baseurl: string): HTMLElement {
   const wrap = document.createElement('div');
   wrap.className = 'post-card-wrap';
   wrap.style.setProperty('--tag-color', tagColorVar(post.tags[0]));
   if (post.tags[0]) {
-    wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.tags[0]}.svg')`);
+    wrap.style.setProperty('--edge-img', `url('${baseurl}/assets/edges/${post.tags[0]}.svg')`);
   }
 
   const topBorder = document.createElement('div');

@@ -7,10 +7,12 @@ export class Timeline {
   private posts: PostData[];
   private projects: ProjectData[];
   private filter: TagFilter;
+  private baseurl: string;
 
-  constructor(container: HTMLElement, posts: PostData[], projects: ProjectData[], filter: TagFilter) {
+  constructor(container: HTMLElement, posts: PostData[], projects: ProjectData[], filter: TagFilter, baseurl = '') {
     this.container = container;
     this.projects = projects;
+    this.baseurl = baseurl;
     this.posts = [...posts].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -159,7 +161,7 @@ export class Timeline {
     wrap.dataset['tags'] = post.tags.join(' ');
     wrap.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
     if (post.tags[0]) {
-      wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.tags[0]}.svg')`);
+      wrap.style.setProperty('--edge-img', `url('${this.baseurl}/assets/edges/${post.tags[0]}.svg')`);
     }
 
     const topBorder = document.createElement('div');
@@ -188,7 +190,7 @@ export class Timeline {
     if (!post.clickable) return null;
     if (post.project_link && post.project) {
       const project = this.projects.find(p => p.slug === post.project);
-      if (project?.post) return project.post;
+      if (project?.post) return this.baseurl + project.post;
     }
     return post.url;
   }

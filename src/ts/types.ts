@@ -28,6 +28,7 @@ export interface ProjectData {
 export interface SiteData {
   posts: PostData[];
   projects: ProjectData[];
+  baseurl: string;
 }
 
 // Nav preset → tags to set as "allowed"
