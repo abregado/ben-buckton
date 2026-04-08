@@ -335,3 +335,17 @@
   line-height: 1.35;
   color: var(--text-primary);
 }
+
+[data-theme="noir"] .chip__ext-btn {
+  background: var(--card-bg);
+  border-radius: 0 var(--card-radius, 3px) var(--card-radius, 3px) var(--card-radius, 3px);
+  border-left:   2px solid var(--card-left);
+  border-top:    1px solid var(--border);
+  border-right:  1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+[data-theme="noir"] .chip__ext-btn:hover {
+  color: var(--text-primary);
+}
