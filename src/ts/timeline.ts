@@ -72,8 +72,12 @@ export class Timeline {
         cardsCol.className = 'timeline__month-cards';
 
         for (const post of byYear.get(year)!.get(month)!) {
-          cardsCol.appendChild((isFirst || post.featured) ? this.renderTile(post) : this.renderChip(post));
-          isFirst = false;
+          if (post.tags[0] === 'quote') {
+            cardsCol.appendChild(this.renderQuote(post));
+          } else {
+            cardsCol.appendChild((isFirst || post.featured) ? this.renderTile(post) : this.renderChip(post));
+            isFirst = false;
+          }
         }
 
         section.appendChild(labelCol);
@@ -146,6 +150,41 @@ export class Timeline {
     return this.wrapCard(post, card);
   }
 
+  private renderQuote(post: PostData): HTMLElement {
+    const href = this.resolveHref(post);
+    const tag = href ? 'a' : 'div';
+    const card = document.createElement(tag) as HTMLElement;
+    card.className = `post-card quote-card post-type--${post.tags[0]}`;
+    card.dataset['postUrl'] = post.url;
+    if (href && card instanceof HTMLAnchorElement) {
+      card.href = href;
+    }
+
+    if (post.excerpt) {
+      const text = document.createElement('p');
+      text.className = 'quote__text';
+      text.textContent = post.excerpt;
+      card.appendChild(text);
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'post-card-wrap post-card-wrap--quote';
+    wrap.dataset['tags'] = post.tags.join(' ');
+    wrap.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
+    if (post.tags[0]) {
+      wrap.style.setProperty('--edge-img', `url('${this.baseurl}/assets/edges/${post.tags[0]}.svg')`);
+    }
+
+    wrap.appendChild(this.createCornerEl());
+    wrap.appendChild(card);
+
+    if (post.external_url) {
+      wrap.appendChild(this.buildInfoBtn(post));
+    }
+
+    return wrap;
+  }
+
   // ── Helpers ───────────────────────────────────────────────────────────────
 
   private wrapCard(post: PostData, card: HTMLElement): HTMLElement {
@@ -193,6 +232,17 @@ export class Timeline {
     div.className = 'card-corner';
     div.setAttribute('aria-hidden', 'true');
     return div;
+  }
+
+  private buildInfoBtn(post: PostData): HTMLElement {
+    const btn = document.createElement('a');
+    btn.className = 'quote__info-btn';
+    btn.href = post.external_url!;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.setAttribute('aria-label', 'Source');
+    btn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/></svg>';
+    return btn;
   }
 
   private buildExtBtn(post: PostData): HTMLElement {

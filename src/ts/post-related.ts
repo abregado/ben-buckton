@@ -23,6 +23,11 @@ export function initRelatedPosts(data: SiteData): void {
         p => p.project === currentPost.project && p.url !== currentUrl
       );
       heading = 'Other posts in this project';
+    } else if (currentPost.tags[0] === 'quote') {
+      related = data.posts
+        .filter(p => p.url !== currentUrl && p.tags[0] === 'quote')
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      heading = 'Other quotes';
     } else {
       const tags = new Set(currentPost.tags);
       related = data.posts
@@ -49,7 +54,9 @@ export function initRelatedPosts(data: SiteData): void {
   const chips = document.createElement('div');
   chips.className = 'related-posts__chips';
   for (const post of related) {
-    chips.appendChild(renderChip(post, data.baseurl ?? ''));
+    chips.appendChild(post.tags[0] === 'quote'
+      ? renderQuoteCard(post, data.baseurl ?? '')
+      : renderChip(post, data.baseurl ?? ''));
   }
   container.appendChild(chips);
 }
@@ -57,6 +64,55 @@ export function initRelatedPosts(data: SiteData): void {
 function tagColorVar(tag: string | undefined): string {
   if (!tag) return 'var(--c-default, #666)';
   return `var(--c-${tag})`;
+}
+
+function renderQuoteCard(post: PostData, baseurl: string): HTMLElement {
+  const wrap = document.createElement('div');
+  wrap.className = 'post-card-wrap post-card-wrap--quote';
+  wrap.style.setProperty('--tag-color', tagColorVar(post.tags[0]));
+  if (post.tags[0]) {
+    wrap.style.setProperty('--edge-img', `url('${baseurl}/assets/edges/${post.tags[0]}.svg')`);
+  }
+  wrap.dataset['tags'] = post.tags.join(' ');
+
+  const corner = document.createElement('div');
+  corner.className = 'card-corner';
+  corner.setAttribute('aria-hidden', 'true');
+
+  const tag = post.clickable ? 'a' : 'div';
+  const card = document.createElement(tag) as HTMLElement;
+  card.className = `post-card quote-card post-type--${post.tags[0]}`;
+  card.dataset['postUrl'] = post.url;
+  if (post.clickable && card instanceof HTMLAnchorElement) {
+    card.href = post.url;
+  }
+
+  if (post.excerpt) {
+    const text = document.createElement('p');
+    text.className = 'quote__text';
+    text.textContent = post.excerpt;
+    card.appendChild(text);
+  }
+
+  wrap.appendChild(corner);
+  wrap.appendChild(card);
+
+  if (post.external_url) {
+    wrap.appendChild(buildInfoBtn(post));
+  }
+
+  return wrap;
+}
+
+function buildInfoBtn(post: PostData): HTMLElement {
+  const btn = document.createElement('a');
+  btn.className = 'quote__info-btn';
+  btn.href = post.external_url!;
+  btn.target = '_blank';
+  btn.rel = 'noopener noreferrer';
+  btn.setAttribute('aria-label', 'Source');
+  btn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/></svg>';
+  return btn;
 }
 
 function renderChip(post: PostData, baseurl: string): HTMLElement {

@@ -1,0 +1,191 @@
+@use "variables" as *;
+
+// ── QUOTE CARD — base (no theme) ─────────────────────────────────────────────
+
+.post-card-wrap--quote {
+  position: relative;
+}
+
+// Height auto — expands with content (not fixed chip-height)
+.post-card.quote-card {
+  display: block;
+  height: auto;
+}
+
+.quote__text {
+  font-style: italic;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+}
+
+// Info icon — absolute in top-right corner of the wrap
+.quote__info-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-decoration: none;
+  opacity: 0.55;
+  transition: opacity 0.18s, background 0.18s;
+  z-index: 10;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
+}
+
+// ── INKWELL THEME ─────────────────────────────────────────────────────────────
+
+[data-theme="inkwell"] .post-card-wrap--quote {
+  // 35% of the normal card column width
+  width: 35%;
+  align-self: flex-start;
+}
+
+// Suppress the top border sweep for quote cards
+[data-theme="inkwell"] .post-card-wrap--quote .card-top-border {
+  display: none;
+}
+
+// Lighter hover lift — no drop shadow
+[data-theme="inkwell"] .post-card-wrap--quote:has(a.post-card):hover {
+  filter: none;
+  transform: translateY(-2px);
+}
+
+[data-theme="inkwell"] .post-card.quote-card {
+  // Left border only — no box border, no fill
+  border-left:   3px solid var(--tag-color, var(--accent));
+  border-top:    none;
+  border-right:  none;
+  border-bottom: none;
+  border-radius: 0;
+  background:    transparent;
+  // Extra right padding to clear the (i) info button
+  padding: 12px 30px 12px 14px;
+  overflow: visible;
+}
+
+// Suppress corner tint on quote cards
+[data-theme="inkwell"] .post-card.quote-card::after {
+  display: none;
+}
+
+[data-theme="inkwell"] .quote__text {
+  font-style: italic;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+  color: var(--text-primary);
+
+  // Opening curly quote in tag color
+  &::before {
+    content: '\201C';
+    font-size: 1.5em;
+    font-style: normal;
+    line-height: 0;
+    vertical-align: -0.28em;
+    margin-right: 2px;
+    color: var(--tag-color);
+    opacity: 0.8;
+  }
+
+  // Closing curly quote in tag color
+  &::after {
+    content: '\201D';
+    font-size: 1.5em;
+    font-style: normal;
+    line-height: 0;
+    vertical-align: -0.28em;
+    margin-left: 2px;
+    color: var(--tag-color);
+    opacity: 0.8;
+  }
+}
+
+[data-theme="inkwell"] .quote__info-btn {
+  color: var(--tag-color);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--tag-color);
+
+  &:hover {
+    background: rgba(125, 207, 255, 0.12);
+  }
+}
+
+// ── NOIR THEME ────────────────────────────────────────────────────────────────
+
+[data-theme="noir"] .post-card-wrap--quote {
+  width: 35%;
+  align-self: flex-start;
+}
+
+[data-theme="noir"] .post-card-wrap--quote .card-top-border {
+  display: none;
+}
+
+[data-theme="noir"] .post-card-wrap--quote:has(a.post-card):hover {
+  filter: none;
+  transform: translateY(-2px);
+}
+
+[data-theme="noir"] .post-card.quote-card {
+  border-left:   3px solid var(--card-left);   // always gray in Noir
+  border-top:    none;
+  border-right:  none;
+  border-bottom: none;
+  border-radius: 0;
+  background:    transparent;
+  padding: 12px 30px 12px 14px;
+  overflow: visible;
+}
+
+[data-theme="noir"] .post-card.quote-card::after {
+  display: none;
+}
+
+[data-theme="noir"] .quote__text {
+  font-style: italic;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+  color: var(--text-primary);
+
+  &::before {
+    content: '\201C';
+    font-size: 1.5em;
+    font-style: normal;
+    line-height: 0;
+    vertical-align: -0.28em;
+    margin-right: 2px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  &::after {
+    content: '\201D';
+    font-size: 1.5em;
+    font-style: normal;
+    line-height: 0;
+    vertical-align: -0.28em;
+    margin-left: 2px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+}
+
+[data-theme="noir"] .quote__info-btn {
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid #333333;
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: #555555;
+    background: transparent;
+  }
+}
