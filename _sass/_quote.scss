@@ -7,9 +7,13 @@
 }
 
 // Height auto — expands with content (not fixed chip-height)
+// Flex for vertical + horizontal centering of text
 .post-card.quote-card {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: auto;
+  text-align: center;
 }
 
 .quote__text {
@@ -42,12 +46,6 @@
 
 // ── INKWELL THEME ─────────────────────────────────────────────────────────────
 
-[data-theme="inkwell"] .post-card-wrap--quote {
-  // 35% of the normal card column width
-  width: 35%;
-  align-self: flex-start;
-}
-
 // Suppress the top border sweep for quote cards
 [data-theme="inkwell"] .post-card-wrap--quote .card-top-border {
   display: none;
@@ -67,8 +65,7 @@
   border-bottom: none;
   border-radius: 0;
   background:    transparent;
-  // Extra right padding to clear the (i) info button
-  padding: 12px 30px 12px 14px;
+  padding: 20px 36px 20px 14px;
   overflow: visible;
 }
 
@@ -120,11 +117,6 @@
 
 // ── NOIR THEME ────────────────────────────────────────────────────────────────
 
-[data-theme="noir"] .post-card-wrap--quote {
-  width: 35%;
-  align-self: flex-start;
-}
-
 [data-theme="noir"] .post-card-wrap--quote .card-top-border {
   display: none;
 }
@@ -141,7 +133,7 @@
   border-bottom: none;
   border-radius: 0;
   background:    transparent;
-  padding: 12px 30px 12px 14px;
+  padding: 20px 36px 20px 14px;
   overflow: visible;
 }
 
