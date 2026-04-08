@@ -53,7 +53,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   height: $chip-height;
   width: 40px;
   overflow: hidden;
@@ -73,25 +72,22 @@
 }
 
 .chip__ext-icon {
-  position: absolute;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.15s ease;
 }
 
 .chip__ext-label {
   font-size: $font-size-sm;
-  opacity: 0;
-  padding: 0 10px;
-  transition: opacity 0.15s ease;
-}
-
-.chip__ext-btn:hover .chip__ext-icon {
-  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-left: 6px;
+  white-space: nowrap;
+  transition: max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chip__ext-btn:hover .chip__ext-label {
-  opacity: 1;
-  transition-delay: 0.12s;
+  max-width: 120px;
 }

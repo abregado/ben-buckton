@@ -214,7 +214,7 @@ export class Timeline {
 
     const label = document.createElement('span');
     label.className = 'chip__ext-label';
-    label.textContent = `goto ${domain}`;
+    label.textContent = domain;
 
     btn.appendChild(icon);
     btn.appendChild(label);
