@@ -35,26 +35,62 @@
     outline: 1px solid var(--type-color, $color-border);
   }
 
-  &--has-external {
-    padding-right: 40px;
+}
+
+.chip-row {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+
+  .post-card-wrap {
+    flex: 1;
+    min-width: 0;
   }
 }
 
-.chip__external-link {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 40px;
+.chip__ext-btn {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: $chip-height;
+  padding: 0 13px;
+  background: $color-surface;
+  border-radius: $border-radius-sm;
+  border-left: 3px solid var(--tag-color, $color-border);
   color: $color-text-muted;
   text-decoration: none;
-  z-index: 5;
+  white-space: nowrap;
+  transition: color 0.15s ease;
 
   &:hover {
     color: $color-text;
     text-decoration: none;
   }
+}
+
+.chip__ext-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip__ext-label-wrap {
+  display: grid;
+  grid-template-columns: 0fr;
+  overflow: hidden;
+  transition: grid-template-columns 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chip__ext-btn:hover .chip__ext-label-wrap {
+  grid-template-columns: 1fr;
+}
+
+.chip__ext-label {
+  overflow: hidden;
+  min-width: 0;
+  font-size: $font-size-sm;
+  padding-left: 6px;
+  white-space: nowrap;
 }

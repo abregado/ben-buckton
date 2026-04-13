@@ -17,7 +17,7 @@ function init(): void {
   const timelineEl = document.getElementById('timeline');
   let timeline: Timeline | null = null;
   if (timelineEl) {
-    timeline = new Timeline(timelineEl, data.posts, data.projects ?? [], filter);
+    timeline = new Timeline(timelineEl, data.posts, data.projects ?? [], filter, data.baseurl ?? '');
     timeline.render();
   }
 

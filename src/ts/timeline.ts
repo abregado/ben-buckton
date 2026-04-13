@@ -7,10 +7,12 @@ export class Timeline {
   private posts: PostData[];
   private projects: ProjectData[];
   private filter: TagFilter;
+  private baseurl: string;
 
-  constructor(container: HTMLElement, posts: PostData[], projects: ProjectData[], filter: TagFilter) {
+  constructor(container: HTMLElement, posts: PostData[], projects: ProjectData[], filter: TagFilter, baseurl = '') {
     this.container = container;
     this.projects = projects;
+    this.baseurl = baseurl;
     this.posts = [...posts].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
@@ -70,8 +72,12 @@ export class Timeline {
         cardsCol.className = 'timeline__month-cards';
 
         for (const post of byYear.get(year)!.get(month)!) {
-          cardsCol.appendChild((isFirst || post.featured) ? this.renderTile(post) : this.renderChip(post));
-          isFirst = false;
+          if (post.tags[0] === 'quote') {
+            cardsCol.appendChild(this.renderQuote(post));
+          } else {
+            cardsCol.appendChild((isFirst || post.featured) ? this.renderTile(post) : this.renderChip(post));
+            isFirst = false;
+          }
         }
 
         section.appendChild(labelCol);
@@ -92,21 +98,14 @@ export class Timeline {
 
     card.appendChild(title);
 
-    if (post.external_url) {
-      card.classList.add('chip--has-external');
-    }
-
     const wrap = this.wrapCard(post, card);
 
     if (post.external_url) {
-      const extLink = document.createElement('a');
-      extLink.className = 'chip__external-link';
-      extLink.href = post.external_url;
-      extLink.target = '_blank';
-      extLink.rel = 'noopener noreferrer';
-      extLink.setAttribute('aria-label', 'Open external link');
-      extLink.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg>';
-      wrap.appendChild(extLink);
+      const row = document.createElement('div');
+      row.className = 'chip-row';
+      row.appendChild(wrap);
+      row.appendChild(this.buildExtBtn(post));
+      return row;
     }
 
     return wrap;
@@ -151,6 +150,41 @@ export class Timeline {
     return this.wrapCard(post, card);
   }
 
+  private renderQuote(post: PostData): HTMLElement {
+    const href = this.resolveHref(post);
+    const tag = href ? 'a' : 'div';
+    const card = document.createElement(tag) as HTMLElement;
+    card.className = `post-card quote-card post-type--${post.tags[0]}`;
+    card.dataset['postUrl'] = post.url;
+    if (href && card instanceof HTMLAnchorElement) {
+      card.href = href;
+    }
+
+    if (post.excerpt) {
+      const text = document.createElement('p');
+      text.className = 'quote__text';
+      text.textContent = post.excerpt;
+      card.appendChild(text);
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'post-card-wrap post-card-wrap--quote';
+    wrap.dataset['tags'] = post.tags.join(' ');
+    wrap.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
+    if (post.tags[0]) {
+      wrap.style.setProperty('--edge-img', `url('${this.baseurl}/assets/edges/${post.tags[0]}.svg')`);
+    }
+
+    wrap.appendChild(this.createCornerEl());
+    wrap.appendChild(card);
+
+    if (post.external_url) {
+      wrap.appendChild(this.buildInfoBtn(post));
+    }
+
+    return wrap;
+  }
+
   // ── Helpers ───────────────────────────────────────────────────────────────
 
   private wrapCard(post: PostData, card: HTMLElement): HTMLElement {
@@ -159,7 +193,7 @@ export class Timeline {
     wrap.dataset['tags'] = post.tags.join(' ');
     wrap.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
     if (post.tags[0]) {
-      wrap.style.setProperty('--edge-img', `url('/assets/edges/${post.tags[0]}.svg')`);
+      wrap.style.setProperty('--edge-img', `url('${this.baseurl}/assets/edges/${post.tags[0]}.svg')`);
     }
 
     const topBorder = document.createElement('div');
@@ -188,7 +222,7 @@ export class Timeline {
     if (!post.clickable) return null;
     if (post.project_link && post.project) {
       const project = this.projects.find(p => p.slug === post.project);
-      if (project?.post) return project.post;
+      if (project?.post) return this.baseurl + project.post;
     }
     return post.url;
   }
@@ -198,6 +232,46 @@ export class Timeline {
     div.className = 'card-corner';
     div.setAttribute('aria-hidden', 'true');
     return div;
+  }
+
+  private buildInfoBtn(post: PostData): HTMLElement {
+    const btn = document.createElement('a');
+    btn.className = 'quote__info-btn';
+    btn.href = post.external_url!;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.setAttribute('aria-label', 'Source');
+    btn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/></svg>';
+    return btn;
+  }
+
+  private buildExtBtn(post: PostData): HTMLElement {
+    let domain = post.external_url!;
+    try { domain = new URL(post.external_url!).hostname.replace(/^www\./, ''); } catch { /* keep raw */ }
+
+    const btn = document.createElement('a');
+    btn.className = 'chip__ext-btn';
+    btn.href = post.external_url!;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.setAttribute('aria-label', `Go to ${domain}`);
+    btn.style.setProperty('--tag-color', this.tagColorVar(post.tags[0]));
+
+    const icon = document.createElement('span');
+    icon.className = 'chip__ext-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"/></svg>';
+
+    const labelWrap = document.createElement('span');
+    labelWrap.className = 'chip__ext-label-wrap';
+    const label = document.createElement('span');
+    label.className = 'chip__ext-label';
+    label.textContent = domain;
+    labelWrap.appendChild(label);
+
+    btn.appendChild(icon);
+    btn.appendChild(labelWrap);
+    return btn;
   }
 
   private tagColorVar(type: string | null | undefined): string {
